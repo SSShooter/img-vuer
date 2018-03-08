@@ -2,6 +2,8 @@
 
 > img viewer
 
+0.9.1 function almost complete
+
 ## Build Setup
 
 ``` bash
