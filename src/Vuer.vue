@@ -49,6 +49,7 @@ export default {
       this.currentScale = el.scaleX
     },
     handlePressMove(e, el) {
+      this.el = el
       this.$emit('disableSwipe')
       let slow = false
       let box = el.getBoundingClientRect()
@@ -125,6 +126,12 @@ export default {
         new To(el, 'translateX', x, 500, this.ease)
         new To(el, 'translateY', y, 500, this.ease)
       }
+    },
+    resetSize() {
+      new To(this.el, 'scaleX', 1, 500, this.ease)
+      new To(this.el, 'scaleY', 1, 500, this.ease)
+      new To(this.el, 'translateX', 0, 500, this.ease)
+      new To(this.el, 'translateY', 0, 500, this.ease)
     },
     ease(x) {
       return Math.sqrt(1 - Math.pow(x - 1, 2))

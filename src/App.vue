@@ -8,6 +8,7 @@
       <ImgVuer class="item"
         v-for="(item,index) in list"
         :key="index"
+        ref="img"
         :src="item.src"
         @disableSwipe="allowSwipe = false"
         @enableSwipe="allowSwipe = true" />
@@ -23,13 +24,28 @@ export default {
   data() {
     return {
       list: [
-        { src: 'https://wx4.sinaimg.cn/mw690/646638fegy1fp52hg6smvj20j60j676p.jpg' },
-        { src: 'https://wx1.sinaimg.cn/mw690/6694d955ly1fp2xwc9dbzj20hs0ouq5g.jpg' },
-        { src: 'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn7wh9aj30jf0pwq7j.jpg' },
-        { src: 'https://wx2.sinaimg.cn/mw690/0062YxhLgy1fp4kn0c9ecj30oo0dwwg5.jpg' },
-        { src: 'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn2exfvj30lr0eh75k.jpg' }
+        {
+          src:
+            'https://wx4.sinaimg.cn/mw690/646638fegy1fp52hg6smvj20j60j676p.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw690/6694d955ly1fp2xwc9dbzj20hs0ouq5g.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn7wh9aj30jf0pwq7j.jpg'
+        },
+        {
+          src:
+            'https://wx2.sinaimg.cn/mw690/0062YxhLgy1fp4kn0c9ecj30oo0dwwg5.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn2exfvj30lr0eh75k.jpg'
+        }
       ],
-      allowSwipe:false,
+      allowSwipe: false,
       currentIndex: 0
     }
   },
@@ -40,24 +56,26 @@ export default {
   },
   methods: {
     handlePressMove(e, el) {
-      if(this.allowSwipe === false) return
+      if (this.allowSwipe === false) return
       el.translateX += e.deltaX
       e.preventDefault()
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
-      if(this.allowSwipe === false) return
+      if (this.allowSwipe === false) return
       let width = el.getBoundingClientRect().width
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     },
     handleSwipe(evt, el) {
-      console.log(this.$refs)
-      if(this.allowSwipe === false) return
+      if (this.allowSwipe === false) return
       let width = el.getBoundingClientRect().width
-      if (evt.direction === 'Left' && this.currentIndex < this.maxIndex)
+      if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
+        this.$refs.img[this.currentIndex].resetSize()
         this.currentIndex += 1
-      else if (evt.direction === 'Right' && this.currentIndex > 0)
+      } else if (evt.direction === 'Right' && this.currentIndex > 0) {
+        this.$refs.img[this.currentIndex].resetSize()
         this.currentIndex -= 1
+      }
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     }
   }
