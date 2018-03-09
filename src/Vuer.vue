@@ -1,159 +1,101 @@
 <template>
-  <div class="img-vuer">
-    <img style="position:absolute;width: 100%;"
+  <div class="slider">
+    <div class="item-wrapper"
       v-transform
-      v-finger:pinch="handlePinch"
-      v-finger:doubleTap="handleDoubleTap"
-      v-finger:multipointStart="handleMultipointStart"
       v-finger:pressMove="handlePressMove"
       v-finger:touchEnd="handleTouchEnd"
-      :src="src">
+      v-finger:swipe="handleSwipe">
+      <VuerSingle class="item"
+        v-for="(item,index) in list"
+        :key="index"
+        ref="img"
+        :src="item.src"
+        @disableSwipe="allowSwipe = false"
+        @enableSwipe="allowSwipe = true" />
+    </div>
   </div>
 </template>
 
 <script>
+import VuerSingle from './VuerSingle'
 import To from './to.js'
 export default {
-  name: 'app',
-  props: ['src'],
+  components: { VuerSingle },
+  props: {
+    list: Array,
+    initIndex: { type: Number, default: 0 },
+    isShow: Boolean
+  },
   data() {
     return {
-      currentScale: 1,
-      topPx: 0,
-      overflowX: '',
-      overflowY: ''
+      allowSwipe: false,
+      currentIndex: this.initIndex
+    }
+  },
+  computed: {
+    maxIndex() {
+      return this.list.length - 1
+    }
+  },
+  watch: {
+    isShow() {
+      // if (this.isShow) document.querySelector('.slider').style.display = 'block'
     }
   },
   mounted() {
-    if (!this.src) return false
-    let vm = this
-    function imageLoaded(selector, onload) {
-      let img = new Image()
-      let dom = document.querySelector(selector)
-      img.onload = function() {
-        onload.call(dom, this.width, this.height)
-        img.onload = null
-        img = null
-      }
-      img.src = dom.getAttribute('src')
-    }
-    imageLoaded(`[src="${this.src}"]`, function(w, h) {
-      this.parentNode.style.display = 'block'
-      vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
-      this.style.top = vm.topPx + 'px'
-    })
+    let el = document.querySelector('.item-wrapper')
+    el.translateX = -this.currentIndex * el.getBoundingClientRect().width
+    // if (!this.isShow) document.querySelector('.slider').style.display = 'none'
   },
   methods: {
-    // TODO: reset size after swipe
-    handleMultipointStart(e, el) {
-      this.currentScale = el.scaleX
-    },
     handlePressMove(e, el) {
-      this.el = el
-      this.$emit('disableSwipe')
-      let slow = false
-      let box = el.getBoundingClientRect()
-      if (box.right < window.innerWidth) {
-        this.overflowX = 'right'
-        slow = true
-      } else if (box.left > 0) {
-        this.overflowX = 'left'
-        slow = true
-      }
-      if (box.bottom > this.topPx + box.height) {
-        this.overflowY = 'top'
-        slow = true
-      } else if (box.bottom < window.innerHeight - this.topPx) {
-        this.overflowY = 'bottom'
-        slow = true
-      }
-      if (slow === true) {
-        this.$emit('enableSwipe')
-        el.translateX += e.deltaX / 8
-        el.translateY += e.deltaY / 8
-        e.preventDefault()
-      } else {
-        el.translateX += e.deltaX
-        el.translateY += e.deltaY
-        e.preventDefault()
-      }
-    },
-    handlePinch(e, el) {
-      this.$emit('disableSwipe')
-      el.scaleX = el.scaleY = this.currentScale * e.zoom
+      if (this.allowSwipe === false) return
+      el.translateX += e.deltaX
+      e.preventDefault()
     },
     handleTouchEnd(e, el) {
-      if (el.scaleX < 1) {
-        new To(el, 'scaleX', 1, 500, this.ease)
-        new To(el, 'scaleY', 1, 500, this.ease)
-      } else {
-        let box = el.getBoundingClientRect()
-        let translateBorderX = (el.scaleX - 1) * box.width / el.scaleX / 2
-        let translateBorderY = (el.scaleY - 1) * box.height / el.scaleY / 2
-        if (this.overflowX == 'left') {
-          new To(el, 'translateX', translateBorderX, 500, this.ease)
-        } else if (this.overflowX == 'right') {
-          new To(el, 'translateX', -translateBorderX, 500, this.ease)
-        }
-
-        if (this.overflowY == 'top') {
-          new To(el, 'translateY', translateBorderY, 500, this.ease)
-        } else if (this.overflowY == 'bottom') {
-          new To(el, 'translateY', -translateBorderY, 500, this.ease)
-        }
-        this.overflowX = this.overflowY = ''
+      // touchmove太短无法触发swipe时用于复位
+      if (this.allowSwipe === false) return
+      let width = el.getBoundingClientRect().width
+      new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+    },
+    handleSwipe(evt, el) {
+      if (this.allowSwipe === false) return
+      let width = el.getBoundingClientRect().width
+      if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
+        this.$refs.img[this.currentIndex].resetSize()
+        this.currentIndex += 1
+      } else if (evt.direction === 'Right' && this.currentIndex > 0) {
+        this.$refs.img[this.currentIndex].resetSize()
+        this.currentIndex -= 1
       }
-    },
-    handleDoubleTap(e, el) {
-      this.$emit('disableSwipe')
-      if (el.scaleX != 1) {
-        new To(el, 'scaleX', 1, 500, this.ease)
-        new To(el, 'scaleY', 1, 500, this.ease)
-        new To(el, 'translateX', 0, 500, this.ease)
-        new To(el, 'translateY', 0, 500, this.ease)
-      } else {
-        let box = el.getBoundingClientRect()
-        let y =
-          box.height -
-          (e.changedTouches[0].pageY - this.topPx) * 2 -
-          (box.height / 2 - (e.changedTouches[0].pageY - this.topPx))
-        let x =
-          box.width -
-          e.changedTouches[0].pageX * 2 -
-          (box.width / 2 - e.changedTouches[0].pageX)
-        new To(el, 'scaleX', 2, 500, this.ease)
-        new To(el, 'scaleY', 2, 500, this.ease)
-        new To(el, 'translateX', x, 500, this.ease)
-        new To(el, 'translateY', y, 500, this.ease)
-      }
-    },
-    resetSize() {
-      new To(this.el, 'scaleX', 1, 500, this.ease)
-      new To(this.el, 'scaleY', 1, 500, this.ease)
-      new To(this.el, 'translateX', 0, 500, this.ease)
-      new To(this.el, 'translateY', 0, 500, this.ease)
-    },
-    ease(x) {
-      return Math.sqrt(1 - Math.pow(x - 1, 2))
+      new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width:100vw;
+  background: #000;
+  overflow: hidden;
 }
-.img-vuer {
-  position: relative;
+.item-wrapper {
   width: 100%;
   height: 100%;
-  background: #000;
-  display: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  /* transition: all .3s; */
+}
+.item {
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
 }
 </style>
