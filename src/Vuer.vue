@@ -1,17 +1,7 @@
 <template>
   <div class="slider">
-    <div class="item-wrapper"
-      v-transform
-      v-finger:pressMove="handlePressMove"
-      v-finger:touchEnd="handleTouchEnd"
-      v-finger:swipe="handleSwipe">
-      <VuerSingle class="item"
-        v-for="(item,index) in list"
-        :key="index"
-        ref="img"
-        :src="item.src"
-        @disableSwipe="allowSwipe = false"
-        @enableSwipe="allowSwipe = true" />
+    <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
+      <VuerSingle class="item" v-for="(item,index) in list" :key="index" ref="img" :src="item.src" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -22,14 +12,18 @@ import To from './to.js'
 export default {
   components: { VuerSingle },
   props: {
-    list: Array,
+    // list: Array,
+    list: {
+      type: Array,
+      default: () => [{ src: 'http://nodesimplified.com/wp-content/uploads/2017/12/error.jpg' }]
+    },
     initIndex: { type: Number, default: 0 },
     isShow: Boolean
   },
   data() {
     return {
       allowSwipe: false,
-      currentIndex: this.initIndex
+      currentIndex: 0
     }
   },
   computed: {
@@ -38,16 +32,30 @@ export default {
     }
   },
   watch: {
-    isShow() {
-      // if (this.isShow) document.querySelector('.slider').style.display = 'block'
+    isShow(val) {
+      if (val) {
+        document.querySelector('.slider').className = "slider open"
+      }
+      else {
+        document.querySelector('.slider').className = "slider close"
+      }
+    },
+    initIndex(val) {
+      this.currentIndex = val
+      let el = document.querySelector('.item-wrapper')
+      el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     }
   },
   mounted() {
     let el = document.querySelector('.item-wrapper')
     el.translateX = -this.currentIndex * el.getBoundingClientRect().width
-    // if (!this.isShow) document.querySelector('.slider').style.display = 'none'
   },
   methods: {
+    closeGallery() {
+      this.$emit('update:isShow', false)
+      this.$refs.img[this.currentIndex].resetSize()
+      console.log('close')
+    },
     handlePressMove(e, el) {
       if (this.allowSwipe === false) return
       el.translateX += e.deltaX
@@ -62,6 +70,7 @@ export default {
     handleSwipe(evt, el) {
       if (this.allowSwipe === false) return
       let width = el.getBoundingClientRect().width
+      console.log(width)
       if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
         this.$refs.img[this.currentIndex].resetSize()
         this.currentIndex += 1
@@ -77,22 +86,61 @@ export default {
 
 <style>
 .slider {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 100vh;
   left: 0;
   height: 100vh;
-  width:100vw;
+  width: 100vw;
   background: #000;
   overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
 }
+
+.open {
+  visibility: visible;
+  animation: open 0.3s;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes open {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-100vh)
+  }
+}
+
+.close {
+  visibility: visible;
+  animation: close 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes close {
+  0% {
+    opacity: 1;
+    transform: translateY(-100vh);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
 .item-wrapper {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  /* transition: all .3s; */
 }
+
 .item {
   flex-shrink: 0;
   width: 100%;

@@ -1,13 +1,6 @@
 <template>
   <div class="img-vuer">
-    <img style="position:absolute;width: 100%;"
-      v-transform
-      v-finger:pinch="handlePinch"
-      v-finger:doubleTap="handleDoubleTap"
-      v-finger:multipointStart="handleMultipointStart"
-      v-finger:pressMove="handlePressMove"
-      v-finger:touchEnd="handleTouchEnd"
-      :src="src">
+    <img style="position:absolute;width: 100%;" v-transform v-finger:pinch="handlePinch" v-finger:doubleTap="handleDoubleTap" v-finger:multipointStart="handleMultipointStart" v-finger:pressMove="handlePressMove" v-finger:touchEnd="handleTouchEnd" :src="src">
   </div>
 </template>
 
@@ -49,33 +42,40 @@ export default {
       this.currentScale = el.scaleX
     },
     handlePressMove(e, el) {
-      this.el = el
       this.$emit('disableSwipe')
-      let slow = false
+      let slowX = false
+      let slowY = false
       let box = el.getBoundingClientRect()
       if (box.right < window.innerWidth) {
         this.overflowX = 'right'
-        slow = true
+        slowX = true
       } else if (box.left > 0) {
         this.overflowX = 'left'
-        slow = true
+        slowX = true
       }
       if (box.bottom > this.topPx + box.height) {
         this.overflowY = 'top'
-        slow = true
+        slowY = true
       } else if (box.bottom < window.innerHeight - this.topPx) {
         this.overflowY = 'bottom'
-        slow = true
+        slowY = true
       }
-      if (slow === true) {
+      // BUG 上下超出时允许Swipe
+      // slow代表到达边界
+      if (slowX && !slowY) {
         this.$emit('enableSwipe')
-        el.translateX += e.deltaX / 8
+        el.translateY += e.deltaY
+      } else if (slowY && !slowX) {
+        el.translateX += e.deltaX
         el.translateY += e.deltaY / 8
         e.preventDefault()
-      } else {
+      } else if (!slowY && !slowX) {
         el.translateX += e.deltaX
         el.translateY += e.deltaY
         e.preventDefault()
+      } else {
+        this.$emit('enableSwipe')
+        el.translateY += e.deltaY / 8
       }
     },
     handlePinch(e, el) {
@@ -83,6 +83,7 @@ export default {
       el.scaleX = el.scaleY = this.currentScale * e.zoom
     },
     handleTouchEnd(e, el) {
+      this.el = el
       if (el.scaleX < 1) {
         new To(el, 'scaleX', 1, 500, this.ease)
         new To(el, 'scaleY', 1, 500, this.ease)
@@ -128,6 +129,7 @@ export default {
       }
     },
     resetSize() {
+      if (!this.el) return
       new To(this.el, 'scaleX', 1, 500, this.ease)
       new To(this.el, 'scaleY', 1, 500, this.ease)
       new To(this.el, 'translateX', 0, 500, this.ease)
@@ -149,11 +151,11 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 .img-vuer {
   position: relative;
   width: 100%;
   height: 100%;
-  background: #000;
   display: none;
 }
 </style>
