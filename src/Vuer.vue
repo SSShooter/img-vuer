@@ -1,7 +1,8 @@
 <template>
   <div class="slider">
     <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
-      <VuerSingle class="item" v-for="(item,index) in list" :key="index" ref="img" :src="item.src" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
+      <!-- 不能以index为:key，index不变组件不更新 -->
+      <VuerSingle class="item" v-for="(item,index) in imgList" :key="item" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -11,24 +12,18 @@ import VuerSingle from './VuerSingle'
 import To from './to.js'
 export default {
   components: { VuerSingle },
-  props: {
-    // list: Array,
-    list: {
-      type: Array,
-      default: () => [{ src: 'http://nodesimplified.com/wp-content/uploads/2017/12/error.jpg' }]
-    },
-    initIndex: { type: Number, default: 0 },
-    isShow: Boolean
-  },
   data() {
     return {
+      isShow:false,
       allowSwipe: false,
-      currentIndex: 0
+      initIndex:0,
+      currentIndex: 0,
+      imgList: []
     }
   },
   computed: {
     maxIndex() {
-      return this.list.length - 1
+      return this.imgList.length - 1
     }
   },
   watch: {
@@ -44,17 +39,17 @@ export default {
       this.currentIndex = val
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
+    },
+    imgList(val) {
+      console.log('imgList change',val)
+      let el = document.querySelector('.item-wrapper')
+      el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     }
-  },
-  mounted() {
-    let el = document.querySelector('.item-wrapper')
-    el.translateX = -this.currentIndex * el.getBoundingClientRect().width
   },
   methods: {
     closeGallery() {
-      this.$emit('update:isShow', false)
+      this.isShow = false
       this.$refs.img[this.currentIndex].resetSize()
-      console.log('close')
     },
     handlePressMove(e, el) {
       if (this.allowSwipe === false) return
@@ -70,7 +65,6 @@ export default {
     handleSwipe(evt, el) {
       if (this.allowSwipe === false) return
       let width = el.getBoundingClientRect().width
-      console.log(width)
       if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
         this.$refs.img[this.currentIndex].resetSize()
         this.currentIndex += 1

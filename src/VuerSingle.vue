@@ -7,7 +7,6 @@
 <script>
 import To from './to.js'
 export default {
-  name: 'app',
   props: ['src'],
   data() {
     return {
@@ -18,26 +17,28 @@ export default {
     }
   },
   mounted() {
-    // TODO 垂直长图显示
+    console.log(this.src)
     if (!this.src) return false
     let vm = this
-    function imageLoaded(selector, onload) {
-      let img = new Image()
-      let dom = document.querySelector(selector)
-      img.onload = function() {
-        onload.call(dom, this.width, this.height)
-        img.onload = null
-        img = null
-      }
-      img.src = dom.getAttribute('src')
-    }
-    imageLoaded(`[src="${this.src}"]`, function(w, h) {
+    this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
       this.parentNode.style.display = 'block'
       vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
       this.style.top = vm.topPx + 'px'
     })
   },
   methods: {
+    imageLoaded(selector, onload) {
+      let img = new Image()
+      // 缩略图同链接，注意获取错误
+      let dom = document.querySelector('.img-vuer > ' + selector)
+      console.log(selector,dom)
+      img.onload = function() {
+        onload.call(dom, this.width, this.height)
+        img.onload = null
+        img = null
+      }
+      img.src = dom.getAttribute('src')
+    },
     handleMultipointStart(e, el) {
       this.currentScale = el.scaleX
     },
@@ -143,15 +144,6 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
 .img-vuer {
   position: relative;
   width: 100%;

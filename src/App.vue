@@ -1,7 +1,17 @@
 <template>
   <div style="padding:20px;">
-    <Vuer :list="list" :initIndex="initIndex" :isShow.sync="isGalleryShow" />
-    <img v-gallery class="thumbnail" v-for="(item,index) in list" :src="item.src" :key="item.src" @click="openGallery(index)">
+    <div style="overflow:hidden">
+      <p>&lt;img v-gallery:group1 class="thumbnail" v-for="item in list1" :src="item.src"&gt;</p>
+      <img v-gallery:group1 class="thumbnail" v-for="item in list1" :src="item.src" :key="item.src + 1">
+    </div>
+    <div style="overflow:hidden">
+      <p>&lt;img v-gallery:group2 class="thumbnail" v-for="item in list2" :src="item.src"&gt;</p>
+      <img v-gallery:group2 class="thumbnail" v-for="item in list2" :src="item.src" :key="item.src + 2">
+    </div>
+    <div style="overflow:hidden">
+      <p>&lt;img v-gallery class="thumbnail" v-for="item in list2" :src="item.src"&gt;</p>
+      <img v-gallery class="thumbnail" v-for="item in list2" :src="item.src" :key="item.src + 3">
+    </div>
   </div>
 </template>
 
@@ -11,36 +21,30 @@ export default {
   components: { Vuer },
   data() {
     return {
-      initIndex: 0,
-      isGalleryShow: false,
-      list: [
+      list1: [
         {
           src:
-          'https://wx1.sinaimg.cn/mw690/7ee8cd0dgy1fp6f3njoqcj20om0ytk6k.jpg'
+          'https://wx4.sinaimg.cn/mw690/686d7361ly1fp9a246f3pj21kw16okbj.jpg'
         },
         {
           src:
-          'https://wx4.sinaimg.cn/mw690/006ghkmygy1fp6cr46qwcj30qo0yowl5.jpg'
+          'https://wx3.sinaimg.cn/mw690/686d7361ly1fp9a2496y3j21kw16otxy.jpg'
         },
         {
           src:
-          'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn7wh9aj30jf0pwq7j.jpg'
+          'https://wx4.sinaimg.cn/mw690/686d7361ly1fp9a52e83uj21kw0w04kg.jpg'
+        },
+      ],
+      list2: [
+        {
+          src:
+          'https://wx2.sinaimg.cn/mw690/686d7361ly1fp99t4bem4j21kw16ohdu.jpg'
         },
         {
           src:
-          'https://wx2.sinaimg.cn/mw690/0062YxhLgy1fp4kn0c9ecj30oo0dwwg5.jpg'
-        },
-        {
-          src:
-          'https://wx1.sinaimg.cn/mw690/0062YxhLgy1fp4kn2exfvj30lr0eh75k.jpg'
+          'https://wx1.sinaimg.cn/mw690/686d7361ly1fp99v4u8jlj21kw1kwkjm.jpg'
         }
       ]
-    }
-  },
-  methods: {
-    openGallery(index) {
-      this.isGalleryShow = true
-      this.initIndex = index
     }
   }
 }
