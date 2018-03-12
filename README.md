@@ -1,13 +1,13 @@
 # img-vuer
 
-> img viewer
+> An image viewer base on Vue.js for mobile 
 
 0.9.1 function almost complete          
 0.9.3 β version release
 
-- [x] Easy to use    
-- [x] Swipe gesture    
-- [x] Zoom gesture     
+- [x] Easy to use:ok_woman:    
+- [x] Swipe gesture:point_right:    
+- [x] Zoom gesture:mag:     
 
 **Please Use Mobile Browser** :satisfied:  **[live demo](https://ssshooter.github.io/img-vuer/index.html)**     
 or scan the QRcode    
@@ -42,3 +42,11 @@ npm run dev
 # build for production with minification
 npm run build
 ```
+## Troubleshooting
+abnormal with page scale      
+Add meta      
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0, maximum-scale=1">
+```
+## License
+MIT  
