@@ -17,7 +17,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.src)
+    // console.log(this.src)
     if (!this.src) return false
     let vm = this
     this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
@@ -31,7 +31,7 @@ export default {
       let img = new Image()
       // 缩略图同链接，注意获取错误
       let dom = document.querySelector('.img-vuer > ' + selector)
-      console.log(selector,dom)
+      // console.log(selector,dom)
       img.onload = function() {
         onload.call(dom, this.width, this.height)
         img.onload = null
@@ -61,7 +61,6 @@ export default {
         this.overflowY = 'bottom'
         slowY = true
       }
-      // BUG 上下超出时允许Swipe
       // slow代表到达边界
       if (slowX && !slowY) {
         this.$emit('enableSwipe')
@@ -143,7 +142,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .img-vuer {
   position: relative;
   width: 100%;

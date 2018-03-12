@@ -1,16 +1,17 @@
-
 import Vuer from './Vuer.vue'
+import vfinger from 'v-finger-mk42'
 const gallery = {
   install(Vue, options) {
+    Vue.use(vfinger)
     // TODO 了解@click的运行机制
     // TODO 完全分清楚全局和实例的区别
     let imgList = {}
-    let imgSingle = []
     let VuerE = Vue.extend(Vuer)
     const element = document.createElement('div');
-    element.setAttribute('id', 'imageScreen');
+    element.setAttribute('id', 'gallery-box');
     document.querySelector('body').appendChild(element);
-    let vm = new VuerE().$mount('#imageScreen')
+    // 新建实例并挂载
+    let vm = new VuerE().$mount('#gallery-box')
     Vue.directive('gallery', {
       inserted: (el, binding) => {
         let group = binding.arg
@@ -37,13 +38,8 @@ const gallery = {
           }
         } else {
           // 无分组（单张）
-          // imgSingle.push(el.src)
+          // 无需储存，直接用el.src打开
         }
-      }
-    })
-    Vue.mixin({
-      created: function () {
-        // 逻辑...
       }
     })
   }

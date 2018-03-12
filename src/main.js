@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import vfinger from 'v-finger-mk42'
-import vgallery from './gallery'
 import App from './App.vue'
-Vue.use(vfinger)
-Vue.use(vgallery)
+import { gallery } from '../index'
+import VueScroller from 'vue-scroller'
+Vue.use(VueScroller)
+Vue.use(gallery)
 
 new Vue({
   el: '#app',

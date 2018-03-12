@@ -1,7 +1,7 @@
 {
   "name": "img-vuer",
   "description": "img viewer",
-  "version": "0.9.1",
+  "version": "0.9.3",
   "author": "zhoudejie <ssshooterx@gmail.com>",
   "license": "MIT",
   "scripts": {
@@ -9,8 +9,9 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "v-finger-mk42": "^1.0.4",
-    "vue": "^2.5.11"
+    "v-finger-mk42": "^1.0.7",
+    "vue": "^2.5.11",
+    "vue-scroller": "^2.2.4"
   },
   "browserslist": [
     "> 1%",

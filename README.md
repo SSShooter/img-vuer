@@ -2,9 +2,14 @@
 
 > img viewer
 
-0.9.1 function almost complete
+0.9.1 function almost complete          
+0.9.3 β version release
 
-## Build Setup
+easy to use    
+pinch zoom    
+swipe change    
+
+## Demo
 
 ``` bash
 # install dependencies

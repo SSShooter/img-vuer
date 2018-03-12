@@ -1,8 +1,19 @@
 <template>
   <div class="slider">
-    <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
+    <div class="item-wrapper"
+      v-transform
+      v-finger:singleTap="closeGallery"
+      v-finger:pressMove="handlePressMove"
+      v-finger:touchEnd="handleTouchEnd"
+      v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
-      <VuerSingle class="item" v-for="(item,index) in imgList" :key="item" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
+      <VuerSingle class="item"
+        v-for="item in imgList"
+        :key="item"
+        ref="img"
+        :src="item"
+        @disableSwipe="allowSwipe = false"
+        @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -14,9 +25,9 @@ export default {
   components: { VuerSingle },
   data() {
     return {
-      isShow:false,
+      isShow: false,
       allowSwipe: false,
-      initIndex:0,
+      initIndex: 0,
       currentIndex: 0,
       imgList: []
     }
@@ -29,10 +40,9 @@ export default {
   watch: {
     isShow(val) {
       if (val) {
-        document.querySelector('.slider').className = "slider open"
-      }
-      else {
-        document.querySelector('.slider').className = "slider close"
+        document.querySelector('.slider').className = 'slider open'
+      } else {
+        document.querySelector('.slider').className = 'slider close'
       }
     },
     initIndex(val) {
@@ -41,7 +51,7 @@ export default {
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     },
     imgList(val) {
-      console.log('imgList change',val)
+      // console.log('imgList change', val)
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     }
@@ -78,7 +88,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .slider {
   position: fixed;
   top: 100vh;
@@ -87,7 +97,7 @@ export default {
   width: 100vw;
   background: #000;
   overflow: hidden;
-
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
 }
@@ -98,7 +108,6 @@ export default {
   animation-fill-mode: forwards;
 }
 
-
 @keyframes open {
   0% {
     opacity: 0;
@@ -106,7 +115,7 @@ export default {
   }
   100% {
     opacity: 1;
-    transform: translateY(-100vh)
+    transform: translateY(-100vh);
   }
 }
 
