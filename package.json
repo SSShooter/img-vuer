@@ -1,7 +1,7 @@
 {
   "name": "img-vuer",
   "description": "img viewer",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "author": "zhoudejie <ssshooterx@gmail.com>",
   "keywords":["vue","gallery","image","image-viwer"],
   "license": "MIT",

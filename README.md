@@ -22,7 +22,7 @@ npm i img-vuer --save
 ## Usage
 ```javascript
 // import img-vuer and install
-import { gallery } from 'img-vuer'
+import gallery from 'img-vuer'
 Vue.use(gallery)
 
 // add direact to <img>

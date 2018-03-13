@@ -81,8 +81,7 @@ if (process.env.NODE_ENV === 'vueplugin') {
     path: path.resolve(__dirname, './'),
     publicPath: '/',
     libraryTarget: 'umd',
-    filename: 'img-vuer.js',
-    library: 'img-vuer'
+    filename: 'index.js'
   }
   module.exports.devtool = '#source-map'
   module.exports.plugins = (module.exports.plugins || []).concat([

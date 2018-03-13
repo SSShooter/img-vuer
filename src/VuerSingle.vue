@@ -1,6 +1,13 @@
 <template>
   <div class="img-vuer">
-    <img style="position:absolute;width: 100%;" v-transform v-finger:pinch="handlePinch" v-finger:doubleTap="handleDoubleTap" v-finger:multipointStart="handleMultipointStart" v-finger:pressMove="handlePressMove" v-finger:touchEnd="handleTouchEnd" :src="src">
+    <img style="position:absolute;width: 100%;"
+      v-transform
+      v-finger:pinch="handlePinch"
+      v-finger:doubleTap="handleDoubleTap"
+      v-finger:multipointStart="handleMultipointStart"
+      v-finger:pressMove="handlePressMove"
+      v-finger:touchEnd="handleTouchEnd"
+      :src="src">
   </div>
 </template>
 
@@ -53,6 +60,9 @@ export default {
       } else if (box.left > 0) {
         this.overflowX = 'left'
         slowX = true
+      } else {
+        this.overflowX = ''
+        slowX = false
       }
       if (box.bottom > this.topPx + box.height) {
         this.overflowY = 'top'
@@ -60,14 +70,19 @@ export default {
       } else if (box.bottom < window.innerHeight - this.topPx) {
         this.overflowY = 'bottom'
         slowY = true
+      } else {
+        this.overflowY = ''
+        slowY = false
       }
+      // 往回移动cancel slow
+
       // slow代表到达边界
       if (slowX && !slowY) {
         this.$emit('enableSwipe')
         el.translateY += e.deltaY
       } else if (slowY && !slowX) {
         el.translateX += e.deltaX
-        el.translateY += e.deltaY / 8
+        el.translateY += e.deltaY / 3
         e.preventDefault()
       } else if (!slowY && !slowX) {
         el.translateX += e.deltaX
@@ -75,7 +90,7 @@ export default {
         e.preventDefault()
       } else {
         this.$emit('enableSwipe')
-        el.translateY += e.deltaY / 8
+        el.translateY += e.deltaY / 3
       }
     },
     handlePinch(e, el) {
