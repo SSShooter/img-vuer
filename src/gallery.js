@@ -3,8 +3,6 @@ import vfinger from 'v-finger-mk42'
 const gallery = {
   install(Vue, options) {
     Vue.use(vfinger)
-    // TODO 了解@click的运行机制
-    // TODO 完全分清楚全局和实例的区别
     let imgList = {}
     let VuerE = Vue.extend(Vuer)
     const element = document.createElement('div');

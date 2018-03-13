@@ -3,13 +3,15 @@
 > An image viewer base on Vue.js for mobile 
 
 0.9.1 function almost complete          
-0.9.3 β version release
+0.9.3 β version release     
+0.9.7 code compression
 
-- [x] Easy to use:ok_woman:    
-- [x] Swipe gesture:point_right:    
-- [x] Zoom gesture:mag:     
+:ok_woman: Easy to use    
+:point_right: Swipe gesture    
+:mag: Zoom gesture     
 
-**Please Use Mobile Browser** :satisfied:  **[live demo](https://ssshooter.github.io/img-vuer/index.html)**     
+**Please Use Mobile Browser** :satisfied:      
+**[live demo](https://ssshooter.github.io/img-vuer/index.html)**      
 or scan the QRcode    
 <img width="150px" src="./QRcode.png">    
 
