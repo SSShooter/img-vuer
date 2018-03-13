@@ -1,6 +1,6 @@
 <template>
   <div class="img-vuer">
-    <img style="position:absolute;width: 100%;"
+    <img style="position:absolute;"
       v-transform
       v-finger:pinch="handlePinch"
       v-finger:doubleTap="handleDoubleTap"
@@ -28,9 +28,18 @@ export default {
     if (!this.src) return false
     let vm = this
     this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
-      this.parentNode.style.display = 'block'
+      console.log(window.innerWidth/window.innerHeight<w/h)
+      if(window.innerWidth/window.innerHeight<w/h)
+      {this.parentNode.style.display = 'block'
+      this.style.width = '100%'
       vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
-      this.style.top = vm.topPx + 'px'
+      this.style.top = vm.topPx + 'px'}
+      else{
+        this.parentNode.style.display = 'block'
+      this.style.height = '100%'
+      vm.leftPx = (window.innerWidth - w / h * window.innerHeight) / 2
+      this.style.left = vm.leftPx + 'px'
+      }
     })
   },
   methods: {

@@ -1,5 +1,5 @@
 import Vuer from './Vuer.vue'
-import vfinger from 'v-finger-mk42'
+import vfinger from '../../v-finger'
 const gallery = {
   install(Vue, options) {
     Vue.use(vfinger)
