@@ -100,6 +100,8 @@ export default {
   z-index: 1000;
   opacity: 0;
   visibility: hidden;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .open {
