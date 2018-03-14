@@ -28,17 +28,17 @@ export default {
     if (!this.src) return false
     let vm = this
     this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
-      console.log(window.innerWidth/window.innerHeight<w/h)
-      if(window.innerWidth/window.innerHeight<w/h)
-      {this.parentNode.style.display = 'block'
-      this.style.width = '100%'
-      vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
-      this.style.top = vm.topPx + 'px'}
-      else{
+      // 检查屏幕比例
+      if (window.innerWidth / window.innerHeight < w / h) {
         this.parentNode.style.display = 'block'
-      this.style.height = '100%'
-      vm.leftPx = (window.innerWidth - w / h * window.innerHeight) / 2
-      this.style.left = vm.leftPx + 'px'
+        this.style.width = '100%'
+        vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
+        this.style.top = vm.topPx + 'px'
+      } else {
+        this.parentNode.style.display = 'block'
+        this.style.height = '100%'
+        vm.leftPx = (window.innerWidth - w / h * window.innerHeight) / 2
+        this.style.left = vm.leftPx + 'px'
       }
     })
   },
@@ -73,6 +73,7 @@ export default {
         this.overflowX = ''
         slowX = false
       }
+      // 左右无弹动，不考虑leftPx
       if (box.bottom > this.topPx + box.height) {
         this.overflowY = 'top'
         slowY = true
@@ -111,6 +112,8 @@ export default {
       if (el.scaleX < 1) {
         new To(el, 'scaleX', 1, 500, this.ease)
         new To(el, 'scaleY', 1, 500, this.ease)
+        new To(el, 'translateX', 0, 500, this.ease)
+        new To(el, 'translateY', 0, 500, this.ease)
       } else {
         let box = el.getBoundingClientRect()
         let translateBorderX = (el.scaleX - 1) * box.width / el.scaleX / 2

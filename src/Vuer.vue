@@ -57,6 +57,7 @@ export default {
     }
   },
   methods: {
+    // BUG 如果是swipe一圈回到原点，不应该触发singleTap
     closeGallery() {
       this.isShow = false
       this.$refs.img[this.currentIndex].resetSize()
