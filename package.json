@@ -16,7 +16,7 @@
     "vueplugin": "cross-env NODE_ENV=vueplugin webpack --progress --hide-modules"
   },
   "dependencies": {
-    "v-finger-mk42": "^1.0.9",
+    "v-finger-mk42": "^1.0.10",
     "vue-scroller": "^2.2.4"
   },
   "browserslist": [

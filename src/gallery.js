@@ -1,17 +1,17 @@
 import Vuer from './Vuer.vue'
-import vfinger from '../../v-finger'
+import vfinger from 'v-finger-mk42/indexIV'
 const gallery = {
   install(Vue, options) {
     Vue.use(vfinger)
     let imgList = {}
     let VuerE = Vue.extend(Vuer)
-    const element = document.createElement('div');
-    element.setAttribute('id', 'gallery-box');
-    document.querySelector('body').appendChild(element);
+    const element = document.createElement('div')
+    element.setAttribute('id', 'gallery-box')
+    document.querySelector('body').appendChild(element)
     // 新建实例并挂载
     let vm = new VuerE().$mount('#gallery-box')
     Vue.directive('gallery', {
-      inserted: (el, binding) => {
+      inserted(el, binding) {
         let group = binding.arg
         el.addEventListener('click', e => {
           if (group) {
@@ -19,7 +19,7 @@ const gallery = {
             let index = vm.imgList.indexOf(el.src)
             vm.isShow = true
             vm.initIndex = index
-          }else{
+          } else {
             vm.imgList = [el.src]
             vm.isShow = true
             vm.initIndex = 0
@@ -38,6 +38,9 @@ const gallery = {
           // 无分组（单张）
           // 无需储存，直接用el.src打开
         }
+      },
+      unbind() {
+        console.log('unbind')
       }
     })
   }

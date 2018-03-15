@@ -1,20 +1,8 @@
 <template>
   <div class="slider">
-    <div class="item-wrapper"
-      v-transform
-      v-finger:singleTap="closeGallery"
-      v-finger:pressMove="handlePressMove"
-      v-finger:touchStart="handleTouchStart"
-      v-finger:touchEnd="handleTouchEnd"
-      v-finger:swipe="handleSwipe">
+    <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchStart="handleTouchStart" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
-      <VuerSingle class="item"
-        v-for="item in imgList"
-        :key="item"
-        ref="img"
-        :src="item"
-        @disableSwipe="allowSwipe = false"
-        @enableSwipe="allowSwipe = true" />
+      <VuerSingle class="item" v-for="item in imgList" :key="item" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -30,7 +18,8 @@ export default {
       allowSwipe: false,
       initIndex: 0,
       currentIndex: 0,
-      imgList: []
+      imgList: [],
+      swipeDelta: 0
     }
   },
   computed: {
@@ -58,7 +47,6 @@ export default {
     }
   },
   methods: {
-    // BUG 如果是swipe一圈回到原点，不应该触发singleTap
     closeGallery() {
       this.isShow = false
       this.$refs.img[this.currentIndex].resetSize()
@@ -66,19 +54,25 @@ export default {
     handlePressMove(e, el) {
       if (this.allowSwipe === false) return
       el.translateX += e.deltaX
+      this.swipeDelta += e.deltaX
+      console.log(this.swipeDelta)
       e.preventDefault()
     },
-    handleTouchStart(){
+    handleTouchStart() {
       To.stopAll()
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
-      if (this.allowSwipe === false) return
+      if (this.allowSwipe === false)return
+      if (Math.abs(this.swipeDelta) < 100)
+        this.swipeDelta = 0
       let width = el.getBoundingClientRect().width
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     },
     handleSwipe(evt, el) {
-      if (this.allowSwipe === false) return
+      // TODO allowSwipe之后应该重新计算swipe距离
+      console.log('~~~~~~~' + Math.abs(this.swipeDelta))
+      if (this.allowSwipe === false || Math.abs(this.swipeDelta) < 100) return
       let width = el.getBoundingClientRect().width
       if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
         this.$refs.img[this.currentIndex].resetSize()
@@ -88,6 +82,7 @@ export default {
         this.currentIndex -= 1
       }
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+      this.swipeDelta = 0
     }
   }
 }
