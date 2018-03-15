@@ -4,6 +4,7 @@
       v-transform
       v-finger:singleTap="closeGallery"
       v-finger:pressMove="handlePressMove"
+      v-finger:touchStart="handleTouchStart"
       v-finger:touchEnd="handleTouchEnd"
       v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
@@ -66,6 +67,9 @@ export default {
       if (this.allowSwipe === false) return
       el.translateX += e.deltaX
       e.preventDefault()
+    },
+    handleTouchStart(){
+      To.stopAll()
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
