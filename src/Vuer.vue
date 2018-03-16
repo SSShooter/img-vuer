@@ -19,6 +19,11 @@ export default {
       initIndex: 0,
       currentIndex: 0,
       imgList: [],
+      /* 从允许swipe开始纪录swipe位移
+       * handleTouchEnd时位移小于130（意味着无法触发swipe），清零
+       * 大于130必定触发handleSwipe，
+       * 修改currentIndex后清零
+       */
       swipeDelta: 0
     }
   },
@@ -64,15 +69,14 @@ export default {
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
       if (this.allowSwipe === false)return
-      if (Math.abs(this.swipeDelta) < 100)
+      if (Math.abs(this.swipeDelta) < 130)
         this.swipeDelta = 0
       let width = el.getBoundingClientRect().width
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     },
     handleSwipe(evt, el) {
-      // TODO allowSwipe之后应该重新计算swipe距离
-      console.log('~~~~~~~' + Math.abs(this.swipeDelta))
-      if (this.allowSwipe === false || Math.abs(this.swipeDelta) < 100) return
+      // swipeDelta小于130不触发翻页
+      if (Math.abs(this.swipeDelta) < 130) return
       let width = el.getBoundingClientRect().width
       if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
         this.$refs.img[this.currentIndex].resetSize()
