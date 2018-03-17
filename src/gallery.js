@@ -18,11 +18,11 @@ const gallery = {
             vm.imgList = imgList[group]
             let index = vm.imgList.indexOf(el.src)
             vm.isShow = true
-            vm.initIndex = index
+            vm.currentIndex = index
           } else {
             vm.imgList = [el.src]
             vm.isShow = true
-            vm.initIndex = 0
+            vm.currentIndex = 0
           }
         })
         if (group) {
@@ -46,6 +46,7 @@ const gallery = {
           let imgGroup = imgList[group]
           let index = imgGroup.indexOf(el.src)
           imgGroup.splice(index, 1)
+          console.log(imgGroup)
         }
       }
     })

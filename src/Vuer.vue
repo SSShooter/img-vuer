@@ -2,7 +2,7 @@
   <div class="slider">
     <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchStart="handleTouchStart" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
-      <VuerSingle class="item" v-for="item in imgList" :key="item" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
+      <VuerSingle class="item" v-for="(item,index) in imgList" :key="item + index" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -16,7 +16,6 @@ export default {
     return {
       isShow: false,
       allowSwipe: false,
-      initIndex: 0,
       currentIndex: 0,
       imgList: [],
       /* 从允许swipe开始纪录swipe位移
@@ -40,13 +39,11 @@ export default {
         document.querySelector('.slider').className = 'slider close'
       }
     },
-    initIndex(val) {
-      this.currentIndex = val
+    currentIndex(){
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     },
-    imgList(val) {
-      // console.log('imgList change', val)
+    imgList() {
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     }
@@ -60,7 +57,6 @@ export default {
       if (this.allowSwipe === false) return
       el.translateX += e.deltaX
       this.swipeDelta += e.deltaX
-      console.log(this.swipeDelta)
       e.preventDefault()
     },
     handleTouchStart() {
