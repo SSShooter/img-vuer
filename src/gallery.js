@@ -39,8 +39,14 @@ const gallery = {
           // 无需储存，直接用el.src打开
         }
       },
-      unbind() {
+      unbind(el, binding) {
         console.log('unbind')
+        let group = binding.arg
+        if (group) {
+          let imgGroup = imgList[group]
+          let index = imgGroup.indexOf(el.src)
+          imgGroup.splice(index, 1)
+        }
       }
     })
   }
