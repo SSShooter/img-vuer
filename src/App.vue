@@ -7,45 +7,51 @@
       <div class="descript">
         An image viewer base on Vue.js for mobile
       </div>
+
       <div class="subtitle">Multiple</div>
       <div style="overflow:hidden">
         <img v-gallery:group1
           class="thumbnail"
-          v-for="item in list1"
+          v-for="(item,index) in list1"
           :src="item.src"
-          :key="item.src + 1">
+          :key="item.src">
       </div>
       <p>
         <pre>&lt;img 
-      <span class="vue-green">v-gallery:</span>groupName1 
-      v-for="item in list1" 
+      <span class="vue-green">v-gallery</span>:groupName1 
+      v-for="<span class="symbol">item in list1</span>" 
       :src="item.src"&gt;</pre>
       </p>
+
+      <div class="subtitle">Multiple(same images)</div>
       <div style="overflow:hidden">
         <img v-gallery:group2
           class="thumbnail"
-          v-for="item in list2"
+          v-for="(item,index) in list2"
+          :data-index="index"
           :src="item.src"
-          :key="item.src + 2">
+          :key="item.src + index">
       </div>
       <p>
         <pre>&lt;img 
-      <span class="vue-green">v-gallery:</span>groupName2 
+      <span class="vue-green">v-gallery</span>:groupName2 
       v-for="item in list2" 
+      <span class="vue-green">:data-index="index"</span>
       :src="item.src"&gt;</pre>
       </p>
+
       <div class="subtitle">Single</div>
       <div style="overflow:hidden">
         <img v-gallery
           class="thumbnail"
-          v-for="item in list2"
+          v-for="(item,index) in list3"
           :src="item.src"
-          :key="item.src + 3">
+          :key="item.src + index">
       </div>
       <p>
         <pre>&lt;img 
       <span class="vue-green">v-gallery</span>
-      v-for="item in list2" 
+      v-for="item in list3" 
       :src="item.src"&gt;</pre>
       </p>
       <footer @click="toGitHub"><i class="iconfont icon-github"></i>GitHub</footer>
@@ -62,25 +68,39 @@ export default {
       list1: [
         {
           src:
-            'https://wx4.sinaimg.cn/mw690/686d7361ly1fp9a246f3pj21kw16okbj.jpg'
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mpd5uj21hc0tyws2.jpg'
         },
         {
           src:
-            'https://wx3.sinaimg.cn/mw690/686d7361ly1fp9a2496y3j21kw16otxy.jpg'
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0ncnnej21hc0zetxo.jpg'
         },
         {
           src:
-            'https://wx4.sinaimg.cn/mw690/686d7361ly1fp9a52e83uj21kw0w04kg.jpg'
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mqvu5j21hc0zkgzz.jpg'
         }
       ],
       list2: [
         {
           src:
-            'https://wx2.sinaimg.cn/mw690/686d7361ly1fp99t4bem4j21kw16ohdu.jpg'
+            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0na9ztj21hc0zkh5n.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw690/686d7361ly1fp99v4u8jlj21kw1kwkjm.jpg'
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mkce2j21hc0zkalj.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mkce2j21hc0zkalj.jpg'
+        }
+      ],
+      list3: [
+        {
+          src:
+            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0me2u3j20zk1hcgw6.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
         }
       ]
     }
@@ -134,5 +154,8 @@ footer{
 .iconfont{
   font-size: 1.5rem;
   margin: 0.3rem;
+}
+.gray{
+  color: #ccc;
 }
 </style>

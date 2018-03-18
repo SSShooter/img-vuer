@@ -1,8 +1,21 @@
 <template>
   <div class="slider">
-    <div class="item-wrapper" v-transform v-finger:singleTap="closeGallery" v-finger:pressMove="handlePressMove" v-finger:touchStart="handleTouchStart" v-finger:touchEnd="handleTouchEnd" v-finger:swipe="handleSwipe">
+    <div class="item-wrapper"
+      v-transform
+      v-finger:singleTap="closeGallery"
+      v-finger:pressMove="handlePressMove"
+      v-finger:touchStart="handleTouchStart"
+      v-finger:touchEnd="handleTouchEnd"
+      v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
-      <VuerSingle class="item" v-for="(item,index) in imgList" :key="item + index" ref="img" :src="item" @disableSwipe="allowSwipe = false" @enableSwipe="allowSwipe = true" />
+      <VuerSingle class="item"
+        v-for="(item,index) in imgList"
+        :key="item + index"
+        ref="img"
+        :src="item"
+        :index="index"
+        @disableSwipe="allowSwipe = false"
+        @enableSwipe="allowSwipe = true" />
     </div>
   </div>
 </template>
@@ -39,7 +52,7 @@ export default {
         document.querySelector('.slider').className = 'slider close'
       }
     },
-    currentIndex(){
+    currentIndex() {
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     },
@@ -64,7 +77,7 @@ export default {
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
-      if (this.allowSwipe === false)return
+      if (this.allowSwipe === false) return
       if (Math.abs(this.swipeDelta) < 130)
         this.swipeDelta = 0
       let width = el.getBoundingClientRect().width

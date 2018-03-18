@@ -8,23 +8,26 @@ const gallery = {
     const element = document.createElement('div')
     element.setAttribute('id', 'gallery-box')
     document.querySelector('body').appendChild(element)
+
     // 新建实例并挂载
     let vm = new VuerE().$mount('#gallery-box')
+
+    let handleClick = (el, group) => e => {
+      if (group) {
+        vm.imgList = imgList[group]
+        let index = Number(e.currentTarget.dataset.index) || vm.imgList.indexOf(el.src)
+        vm.isShow = true
+        vm.currentIndex = index
+      } else {
+        vm.imgList = [el.src]
+        vm.isShow = true
+        vm.currentIndex = 0
+      }
+    }
     Vue.directive('gallery', {
       inserted(el, binding) {
         let group = binding.arg
-        el.addEventListener('click', e => {
-          if (group) {
-            vm.imgList = imgList[group]
-            let index = vm.imgList.indexOf(el.src)
-            vm.isShow = true
-            vm.currentIndex = index
-          } else {
-            vm.imgList = [el.src]
-            vm.isShow = true
-            vm.currentIndex = 0
-          }
-        })
+        el.addEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
           // 有分组
@@ -42,11 +45,11 @@ const gallery = {
       unbind(el, binding) {
         console.log('unbind')
         let group = binding.arg
+        el.removeEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
           let index = imgGroup.indexOf(el.src)
           imgGroup.splice(index, 1)
-          console.log(imgGroup)
         }
       }
     })

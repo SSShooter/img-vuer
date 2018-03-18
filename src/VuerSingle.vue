@@ -1,5 +1,5 @@
 <template>
-  <div class="img-vuer">
+  <div class="img-vuer" :class="'img' + index">
     <img style="position:absolute;"
       v-transform
       v-finger:pinch="handlePinch"
@@ -14,7 +14,7 @@
 <script>
 import To from './to.js'
 export default {
-  props: ['src'],
+  props: ['src','index'],
   data() {
     return {
       currentScale: 1,
@@ -44,10 +44,11 @@ export default {
   },
   methods: {
     imageLoaded(selector, onload) {
+      // 捏造<img/>获取图片宽高
       let img = new Image()
       // 缩略图同链接，注意获取错误
-      let dom = document.querySelector('.img-vuer > ' + selector)
-      // console.log(selector,dom)
+      // BUG 相同图片初始化有问题
+      let dom = document.querySelector(`.img${this.index} > ` + selector)
       img.onload = function() {
         onload.call(dom, this.width, this.height)
         img.onload = null

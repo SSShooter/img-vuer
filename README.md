@@ -50,5 +50,6 @@ Add meta
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0, maximum-scale=1">
 ```
+should not use index as key for component that added `v-gallery`
 ## License
 MIT  
