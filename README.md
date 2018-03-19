@@ -4,7 +4,7 @@
 
 0.9.1 function almost complete          
 0.9.3 β version release     
-0.9.7 code compression
+0.9.7 code compression     
 
 :ok_woman: Easy to use    
 :point_right: Swipe gesture    

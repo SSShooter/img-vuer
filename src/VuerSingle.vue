@@ -116,6 +116,7 @@ export default {
         new To(el, 'translateX', 0, 500, this.ease)
         new To(el, 'translateY', 0, 500, this.ease)
       } else {
+        // BUG 竖向长图zoom后touchEnd表现异常
         let box = el.getBoundingClientRect()
         let translateBorderX = (el.scaleX - 1) * box.width / el.scaleX / 2
         let translateBorderY = (el.scaleY - 1) * box.height / el.scaleY / 2

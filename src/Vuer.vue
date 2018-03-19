@@ -39,6 +39,12 @@ export default {
       swipeDelta: 0
     }
   },
+  beforeRouteLeave(to, from, next) {
+    console.log('beforeRouteLeave')
+    // 路由跳转时关闭图片预览
+    vm.isShow = false
+    next()
+  },
   computed: {
     maxIndex() {
       return this.imgList.length - 1
@@ -78,8 +84,7 @@ export default {
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
       if (this.allowSwipe === false) return
-      if (Math.abs(this.swipeDelta) < 130)
-        this.swipeDelta = 0
+      if (Math.abs(this.swipeDelta) < 130) this.swipeDelta = 0
       let width = el.getBoundingClientRect().width
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     },
