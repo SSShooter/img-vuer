@@ -1,8 +1,8 @@
 <template>
-  <div class="slider">
+  <div class="slider"
+    v-finger:singleTap="closeGallery">
     <div class="item-wrapper"
       v-transform
-      v-finger:singleTap="closeGallery"
       v-finger:pressMove="handlePressMove"
       v-finger:touchStart="handleTouchStart"
       v-finger:touchEnd="handleTouchEnd"

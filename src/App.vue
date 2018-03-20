@@ -12,7 +12,7 @@
       <div style="overflow:hidden">
         <img v-gallery:group1
           class="thumbnail"
-          v-for="(item,index) in list1"
+          v-for="item in list1"
           :src="item.src"
           :key="item.src">
       </div>
@@ -35,7 +35,7 @@
       <p>
         <pre>&lt;img 
       <span class="vue-green">v-gallery</span>:groupName2 
-      v-for="item in list2" 
+      v-for="(item,index) in list2" 
       <span class="vue-green">:data-index="index"</span>
       :src="item.src"&gt;</pre>
       </p>
