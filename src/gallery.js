@@ -30,8 +30,9 @@ const gallery = {
       bind(el){
         if(!el.src) throw('<img/> missing src')
       },
+      // add update
       inserted(el, binding) {
-        let group = binding.arg
+        let group = binding.value
         el.addEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
@@ -51,7 +52,7 @@ const gallery = {
         console.log('unbind')
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
-        let group = binding.arg
+        let group = binding.value
         el.removeEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]

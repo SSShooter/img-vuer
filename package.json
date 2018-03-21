@@ -1,7 +1,7 @@
 {
   "name": "img-vuer",
   "description": "img viewer",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "author": "zhoudejie <ssshooterx@gmail.com>",
   "keywords": [
     "vue",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules && cross-env NODE_ENV=vueplugin webpack --progress --hide-modules",
     "plugin": "cross-env NODE_ENV=vueplugin webpack --progress --hide-modules"
   },
   "dependencies": {
