@@ -10,7 +10,7 @@
 
       <div class="subtitle">Multiple</div>
       <div style="overflow:hidden">
-        <img v-gallery="'group1'"
+        <img v-gallery:group1
           class="thumbnail"
           v-for="item in list1"
           :src="item.src"

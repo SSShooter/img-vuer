@@ -25,14 +25,15 @@ const gallery = {
         vm.currentIndex = 0
       }
     }
-    
+
     Vue.directive('gallery', {
-      bind(el){
-        if(!el.src) throw('<img/> missing src')
+      bind(el) {
+        if (!el.src) throw '<img/> missing src'
       },
       // add update
       inserted(el, binding) {
-        let group = binding.value
+        // 同时兼容arg和value传分组名称
+        let group = binding.arg || binding.value
         el.addEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
