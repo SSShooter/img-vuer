@@ -1,5 +1,6 @@
 <template>
-  <div class="img-vuer" :class="'img' + index">
+  <div class="img-vuer"
+    :class="'img' + index">
     <img style="position:absolute;"
       v-transform
       v-finger:pinch="handlePinch"
@@ -14,11 +15,12 @@
 <script>
 import To from './to.js'
 export default {
-  props: ['src','index'],
+  props: ['src', 'index'],
   data() {
     return {
       currentScale: 1,
-      topPx: 0,
+      topPx: 0, // 上下黑的图使用
+      leftPx: 0, // 左右黑的图使用
       overflowX: '',
       overflowY: ''
     }
@@ -47,7 +49,6 @@ export default {
       // 捏造<img/>获取图片宽高
       let img = new Image()
       // 缩略图同链接，注意获取错误
-      // BUG 相同图片初始化有问题
       let dom = document.querySelector(`.img${this.index} > ` + selector)
       img.onload = function() {
         onload.call(dom, this.width, this.height)
@@ -64,18 +65,18 @@ export default {
       let slowX = false
       let slowY = false
       let box = el.getBoundingClientRect()
-      if (box.right < window.innerWidth) {
+      if (box.right < window.innerWidth - this.leftPx) {
         this.overflowX = 'right'
         slowX = true
-      } else if (box.left > 0) {
+      } else if (box.left > this.leftPx) {
         this.overflowX = 'left'
         slowX = true
       } else {
         this.overflowX = ''
         slowX = false
       }
-      // 左右无弹动，不考虑leftPx
-      if (box.bottom > this.topPx + box.height) {
+
+      if (box.top > this.topPx) {
         this.overflowY = 'top'
         slowY = true
       } else if (box.bottom < window.innerHeight - this.topPx) {
@@ -115,6 +116,9 @@ export default {
         new To(el, 'scaleY', 1, 500, this.ease)
         new To(el, 'translateX', 0, 500, this.ease)
         new To(el, 'translateY', 0, 500, this.ease)
+      } else if (el.scaleX > 3) {
+        new To(el, 'scaleX', 3, 500, this.ease)
+        new To(el, 'scaleY', 3, 500, this.ease)
       } else {
         // BUG 竖向长图zoom后touchEnd表现异常
         let box = el.getBoundingClientRect()
