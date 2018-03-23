@@ -53,7 +53,7 @@ const gallery = {
         console.log('unbind')
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
-        let group = binding.value
+        let group = binding.arg || binding.value
         el.removeEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
