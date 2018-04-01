@@ -15,7 +15,8 @@ const gallery = {
     let handleClick = (el, group) => e => {
       if (group) {
         vm.imgList = imgList[group]
-        let index = Number(e.currentTarget.dataset.index) || vm.imgList.indexOf(el.src)
+        let index =
+          Number(e.currentTarget.dataset.index) || vm.imgList.indexOf(el.src)
         vm.isShow = true
         vm.currentIndex = index
       } else {
@@ -24,9 +25,15 @@ const gallery = {
         vm.currentIndex = 0
       }
     }
+
     Vue.directive('gallery', {
+      bind(el) {
+        if (!el.src) throw '<img/> missing src'
+      },
+      // add update
       inserted(el, binding) {
-        let group = binding.arg
+        // 同时兼容arg和value传分组名称
+        let group = binding.arg || binding.value
         el.addEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
@@ -44,7 +51,9 @@ const gallery = {
       },
       unbind(el, binding) {
         console.log('unbind')
-        let group = binding.arg
+        // 调查keep alive后跳转是否触发unbind
+        vm.isShow = false
+        let group = binding.arg || binding.value
         el.removeEventListener('click', handleClick(el, group))
         if (group) {
           let imgGroup = imgList[group]
