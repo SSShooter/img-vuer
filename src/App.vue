@@ -18,7 +18,7 @@
       </div>
       <p>
         <pre>&lt;img 
-      <span class="vue-green">v-gallery</span>="'group1'"
+      <span class="vue-green">v-gallery</span>:group1
       v-for="<span class="symbol">item in list1</span>" 
       :src="item.src"&gt;</pre>
       </p>
