@@ -2,11 +2,6 @@
 
 > An image viewer base on Vue.js for mobile 
 
-0.9.1 function almost complete          
-0.9.3 β version release     
-0.9.7 code compression     
-0.9.18 v-gallery:group -> v-gallery="'group'"
-
 :ok_woman: Easy to use    
 :point_right: Swipe gesture    
 :mag: Zoom gesture     
@@ -33,6 +28,9 @@ Vue.use(gallery)
 <img v-gallery:groupName :src="...">
 <img v-gallery:groupName :src="...">
 <img v-gallery:groupName :src="...">
+
+// OR ( dynamic bind )
+<img v-gallery="'groupName'" :src="...">
 ```
 ## Development
 ``` bash
