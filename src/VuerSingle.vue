@@ -1,13 +1,13 @@
 <template>
   <div class="img-vuer"
-    :class="'img' + index">
+    :class="'img' + index"
+    v-transform
+    v-finger:pinch="handlePinch"
+    v-finger:doubleTap="handleDoubleTap"
+    v-finger:multipointStart="handleMultipointStart"
+    v-finger:pressMove="handlePressMove"
+    v-finger:touchEnd="handleTouchEnd">
     <img style="position:absolute;"
-      v-transform
-      v-finger:pinch="handlePinch"
-      v-finger:doubleTap="handleDoubleTap"
-      v-finger:multipointStart="handleMultipointStart"
-      v-finger:pressMove="handlePressMove"
-      v-finger:touchEnd="handleTouchEnd"
       :src="src">
   </div>
 </template>
