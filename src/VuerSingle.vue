@@ -19,14 +19,11 @@ export default {
   data() {
     return {
       currentScale: 1,
-      topPx: 0, // 上下黑的图使用
-      leftPx: 0, // 左右黑的图使用
       overflowX: '',
       overflowY: ''
     }
   },
   mounted() {
-    // console.log(this.src)
     if (!this.src) return false
     let vm = this
     this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
@@ -34,13 +31,15 @@ export default {
       if (window.innerWidth / window.innerHeight < w / h) {
         this.parentNode.style.display = 'block'
         this.style.width = '100%'
-        vm.topPx = (window.innerHeight - h / w * window.innerWidth) / 2
-        this.style.top = vm.topPx + 'px'
+        vm.imgHeight = h / w * window.innerWidth
+        vm.imgWidth = window.innerWidth
+        this.style.top = (window.innerHeight - h / w * window.innerWidth) / 2 + 'px'
       } else {
         this.parentNode.style.display = 'block'
         this.style.height = '100%'
-        vm.leftPx = (window.innerWidth - w / h * window.innerHeight) / 2
-        this.style.left = vm.leftPx + 'px'
+        vm.imgHeight = window.innerHeight
+        vm.imgWidth = w / h * window.innerHeight
+        this.style.left = (window.innerWidth - w / h * window.innerHeight) / 2 + 'px'
       }
     })
   },
@@ -60,50 +59,37 @@ export default {
     handleMultipointStart(e, el) {
       this.currentScale = el.scaleX
     },
+    getCriticalX(scale) {
+      // 获取横向临界值
+      return (this.imgWidth * scale - window.innerWidth) / 2
+    },
+    getCriticalY(scale) {
+      // 获取纵向临界值
+      return (this.imgHeight * scale - window.innerHeight) / 2
+    },
     handlePressMove(e, el) {
+      e.preventDefault()
+      let criticalX = this.getCriticalX(el.scaleX)
+      let criticalY = this.getCriticalY(el.scaleY)
+
+      // 实现超过临界值移动速度减缓
+      let slowX = (el.translateX > criticalX) ||
+        (el.translateX < -criticalX)
+      let slowY = (el.translateY > criticalY) ||
+        (el.translateY < -criticalY)
+
       this.$emit('disableSwipe')
-      let slowX = false
-      let slowY = false
-      let box = el.getBoundingClientRect()
-      if (box.right < window.innerWidth - this.leftPx) {
-        this.overflowX = 'right'
-        slowX = true
-      } else if (box.left > this.leftPx) {
-        this.overflowX = 'left'
-        slowX = true
-      } else {
-        this.overflowX = ''
-        slowX = false
-      }
-
-      if (box.top > this.topPx) {
-        this.overflowY = 'top'
-        slowY = true
-      } else if (box.bottom < window.innerHeight - this.topPx) {
-        this.overflowY = 'bottom'
-        slowY = true
-      } else {
-        this.overflowY = ''
-        slowY = false
-      }
-      // 往回移动cancel slow
-
-      // slow代表到达边界
-      if (slowX && !slowY) {
+      if (slowX) {
+        el.translateX += e.deltaX / 3
         this.$emit('enableSwipe')
-        el.translateY += e.deltaY
-      } else if (slowY && !slowX) {
+      }
+      else
         el.translateX += e.deltaX
-        el.translateY += e.deltaY / 3
-        e.preventDefault()
-      } else if (!slowY && !slowX) {
-        el.translateX += e.deltaX
-        el.translateY += e.deltaY
-        e.preventDefault()
-      } else {
-        this.$emit('enableSwipe')
+      if (slowY) {
         el.translateY += e.deltaY / 3
       }
+      else
+        el.translateY += e.deltaY
     },
     handlePinch(e, el) {
       this.$emit('disableSwipe')
@@ -112,51 +98,48 @@ export default {
     handleTouchEnd(e, el) {
       this.el = el
       if (el.scaleX < 1) {
-        new To(el, 'scaleX', 1, 500, this.ease)
-        new To(el, 'scaleY', 1, 500, this.ease)
-        new To(el, 'translateX', 0, 500, this.ease)
-        new To(el, 'translateY', 0, 500, this.ease)
-      } else if (el.scaleX > 3) {
-        new To(el, 'scaleX', 3, 500, this.ease)
-        new To(el, 'scaleY', 3, 500, this.ease)
+        // 放大倍数小于1
+        this.resetSize()
+      } else if (el.scaleX > 4) {
+        // 放大倍数大于4 可能有潜在问题
+        new To(el, 'scaleX', 4, 500, this.ease)
+        new To(el, 'scaleY', 4, 500, this.ease)
       } else {
         // BUG 竖向长图zoom后touchEnd表现异常
-        let box = el.getBoundingClientRect()
-        let translateBorderX = (el.scaleX - 1) * box.width / el.scaleX / 2
-        let translateBorderY = (el.scaleY - 1) * box.height / el.scaleY / 2
-        if (this.overflowX == 'left') {
-          new To(el, 'translateX', translateBorderX, 500, this.ease)
-        } else if (this.overflowX == 'right') {
-          new To(el, 'translateX', -translateBorderX, 500, this.ease)
+        let criticalX = this.getCriticalX(el.scaleX)
+        let criticalY = this.getCriticalY(el.scaleY)
+
+        if (window.innerHeight >= this.imgHeight * el.scaleX) {
+          new To(el, 'translateY', 0, 500, this.ease)
+        } else {
+          if (el.translateY > criticalY) {
+            new To(el, 'translateY', criticalY, 500, this.ease)
+          } else if (el.translateY < -criticalY) {
+            new To(el, 'translateY', -criticalY, 500, this.ease)
+          }
         }
 
-        if (this.overflowY == 'top') {
-          new To(el, 'translateY', translateBorderY, 500, this.ease)
-        } else if (this.overflowY == 'bottom') {
-          new To(el, 'translateY', -translateBorderY, 500, this.ease)
+        if (window.innerWidth >= this.imgWidth * el.scaleY) {
+          new To(el, 'translateX', 0, 500, this.ease)
+        } else {
+          if (el.translateX > criticalX) {
+            new To(el, 'translateX', criticalX, 500, this.ease)
+          } else if (el.translateX < -criticalX) {
+            new To(el, 'translateX', -criticalX, 500, this.ease)
+          }
         }
-        this.overflowX = this.overflowY = ''
       }
     },
     handleDoubleTap(e, el) {
       this.$emit('disableSwipe')
       if (el.scaleX != 1) {
-        new To(el, 'scaleX', 1, 500, this.ease)
-        new To(el, 'scaleY', 1, 500, this.ease)
-        new To(el, 'translateX', 0, 500, this.ease)
-        new To(el, 'translateY', 0, 500, this.ease)
+        this.resetSize()
       } else {
         let box = el.getBoundingClientRect()
-        let y =
-          box.height -
-          (e.changedTouches[0].pageY - this.topPx) * 2 -
-          (box.height / 2 - (e.changedTouches[0].pageY - this.topPx))
-        let x =
-          box.width -
-          e.changedTouches[0].pageX * 2 -
-          (box.width / 2 - e.changedTouches[0].pageX)
-        new To(el, 'scaleX', 2, 500, this.ease)
-        new To(el, 'scaleY', 2, 500, this.ease)
+        let y = window.innerHeight / 2 - e.changedTouches[0].pageY
+        let x = window.innerWidth / 2 - e.changedTouches[0].pageX
+        new To(el, 'scaleX', 4, 500, this.ease)
+        new To(el, 'scaleY', 4, 500, this.ease)
         new To(el, 'translateX', x, 500, this.ease)
         new To(el, 'translateY', y, 500, this.ease)
       }
