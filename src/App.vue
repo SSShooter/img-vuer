@@ -101,6 +101,10 @@ export default {
         {
           src:
             'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
+        },
+        {
+          src:
+            'https://tva1.sinaimg.cn/crop.316.53.496.496.180/686d7361jw1f3q2lpig4cj20vk0hswn3.jpg'
         }
       ]
     }

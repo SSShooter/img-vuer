@@ -20,7 +20,8 @@ export default {
     return {
       currentScale: 1,
       overflowX: '',
-      overflowY: ''
+      overflowY: '',
+      isSmall: false
     }
   },
   mounted() {
@@ -28,7 +29,13 @@ export default {
     let vm = this
     this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
       // 检查屏幕比例
-      if (window.innerWidth / window.innerHeight < w / h) {
+      if (w < window.innerWidth && h < window.innerHeight) {
+        this.parentNode.style.display = 'block'
+        this.style.top = (window.innerHeight - h) / 2 + 'px'
+        this.style.left = (window.innerWidth - w) / 2 + 'px'
+        vm.isSmall = true
+      }
+      else if (window.innerWidth / window.innerHeight < w / h) {
         this.parentNode.style.display = 'block'
         this.style.width = '100%'
         vm.imgHeight = h / w * window.innerWidth
@@ -91,46 +98,46 @@ export default {
       else
         el.translateY += e.deltaY
     },
-    handlePinch(e, el) {
-      this.$emit('disableSwipe')
-      el.scaleX = el.scaleY = this.currentScale * e.zoom
-    },
     handleTouchEnd(e, el) {
       this.el = el
-      if (el.scaleX < 1) {
-        // 放大倍数小于1
+      if (this.isSmall || el.scaleX < 1) {
         this.resetSize()
-      } else if (el.scaleX > 4) {
+        return
+      }
+      if (el.scaleX > 4) {
         // 放大倍数大于4 可能有潜在问题
         new To(el, 'scaleX', 4, 500, this.ease)
         new To(el, 'scaleY', 4, 500, this.ease)
+      }
+      // BUG 竖向长图zoom后touchEnd表现异常
+      let criticalX = this.getCriticalX(el.scaleX)
+      let criticalY = this.getCriticalY(el.scaleY)
+
+      if (window.innerHeight >= this.imgHeight * el.scaleX) {
+        new To(el, 'translateY', 0, 500, this.ease)
       } else {
-        // BUG 竖向长图zoom后touchEnd表现异常
-        let criticalX = this.getCriticalX(el.scaleX)
-        let criticalY = this.getCriticalY(el.scaleY)
-
-        if (window.innerHeight >= this.imgHeight * el.scaleX) {
-          new To(el, 'translateY', 0, 500, this.ease)
-        } else {
-          if (el.translateY > criticalY) {
-            new To(el, 'translateY', criticalY, 500, this.ease)
-          } else if (el.translateY < -criticalY) {
-            new To(el, 'translateY', -criticalY, 500, this.ease)
-          }
+        if (el.translateY > criticalY) {
+          new To(el, 'translateY', criticalY, 500, this.ease)
+        } else if (el.translateY < -criticalY) {
+          new To(el, 'translateY', -criticalY, 500, this.ease)
         }
+      }
 
-        if (window.innerWidth >= this.imgWidth * el.scaleY) {
-          new To(el, 'translateX', 0, 500, this.ease)
-        } else {
-          if (el.translateX > criticalX) {
-            new To(el, 'translateX', criticalX, 500, this.ease)
-          } else if (el.translateX < -criticalX) {
-            new To(el, 'translateX', -criticalX, 500, this.ease)
-          }
+      if (window.innerWidth >= this.imgWidth * el.scaleY) {
+        new To(el, 'translateX', 0, 500, this.ease)
+      } else {
+        if (el.translateX > criticalX) {
+          new To(el, 'translateX', criticalX, 500, this.ease)
+        } else if (el.translateX < -criticalX) {
+          new To(el, 'translateX', -criticalX, 500, this.ease)
         }
       }
     },
     handleDoubleTap(e, el) {
+      console.log(el)
+      if (this.isSmall) {
+        return
+      }
       this.$emit('disableSwipe')
       if (el.scaleX != 1) {
         this.resetSize()
@@ -138,11 +145,15 @@ export default {
         let box = el.getBoundingClientRect()
         let y = window.innerHeight / 2 - e.changedTouches[0].pageY
         let x = window.innerWidth / 2 - e.changedTouches[0].pageX
-        new To(el, 'scaleX', 4, 500, this.ease)
-        new To(el, 'scaleY', 4, 500, this.ease)
+        new To(el, 'scaleX', 2, 500, this.ease)
+        new To(el, 'scaleY', 2, 500, this.ease)
         new To(el, 'translateX', x, 500, this.ease)
         new To(el, 'translateY', y, 500, this.ease)
       }
+    },
+    handlePinch(e, el) {
+      this.$emit('disableSwipe')
+      el.scaleX = el.scaleY = this.currentScale * e.zoom
     },
     resetSize() {
       if (!this.el) return
