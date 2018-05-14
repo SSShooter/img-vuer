@@ -5,6 +5,7 @@
 :ok_woman: Easy to use    
 :point_right: Swipe gesture    
 :mag: Zoom gesture     
+:joy: Now you can use thumbnail ~ V 0.11.0
 
 **Please Use Mobile Browser** :satisfied:      
 **[live demo](https://ssshooter.github.io/img-vuer/index.html)**      

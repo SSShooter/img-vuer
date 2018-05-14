@@ -21,7 +21,6 @@
 </template>
 
 <script>
-// TODO 未决定加不加loading组件
 import VuerSingle from './VuerSingle'
 import To from './to.js'
 export default {

@@ -30,7 +30,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$el.lastChild.firstChild)
+    console.log(this.$el)
     if (!this.src) return false
     this.$emit('disableSwipe')
     let vm = this
