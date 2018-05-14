@@ -9,10 +9,10 @@
       v-finger:swipe="handleSwipe">
       <!-- 不能以index为:key，index不变组件不更新 -->
       <VuerSingle class="item"
-        v-for="(item,index) in imgList"
-        :key="item + index"
+        v-for="(src,index) in imgList"
+        :key="src + index"
         ref="img"
-        :src="item"
+        :src="src"
         :index="index"
         :class="{z1:currentIndex===index}"
         @disableSwipe="allowSwipe = false"
@@ -77,7 +77,6 @@ export default {
       this.$refs.img[this.currentIndex].reset()
     },
     handlePressMove(e, el) {
-      console.log(this.allowSwipe)
       e.preventDefault()
       if (this.allowSwipe === false || this.isSingle) return
       el.translateX += e.deltaX
