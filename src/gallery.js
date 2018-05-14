@@ -15,12 +15,14 @@ const gallery = {
 
     let openVuer = (el, group) => e => {
       if (group) {
+        vm.isSingle = false
         vm.imgList = imgList[group]
         let index =
           Number(e.currentTarget.dataset.index) || vm.imgList.indexOf(el.src)
         vm.isShow = true
         vm.currentIndex = index
       } else {
+        vm.isSingle = true
         vm.imgList = [el.src]
         vm.isShow = true
         vm.currentIndex = 0

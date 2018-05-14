@@ -34,19 +34,20 @@ export default {
         this.style.top = (window.innerHeight - h) / 2 + 'px'
         this.style.left = (window.innerWidth - w) / 2 + 'px'
         vm.isSmall = true
-      }
-      else if (window.innerWidth / window.innerHeight < w / h) {
+      } else if (window.innerWidth / window.innerHeight < w / h) {
         this.parentNode.style.display = 'block'
         this.style.width = '100%'
         vm.imgHeight = h / w * window.innerWidth
         vm.imgWidth = window.innerWidth
-        this.style.top = (window.innerHeight - h / w * window.innerWidth) / 2 + 'px'
+        this.style.top =
+          (window.innerHeight - h / w * window.innerWidth) / 2 + 'px'
       } else {
         this.parentNode.style.display = 'block'
         this.style.height = '100%'
         vm.imgHeight = window.innerHeight
         vm.imgWidth = w / h * window.innerHeight
-        this.style.left = (window.innerWidth - w / h * window.innerHeight) / 2 + 'px'
+        this.style.left =
+          (window.innerWidth - w / h * window.innerHeight) / 2 + 'px'
       }
     })
   },
@@ -76,32 +77,38 @@ export default {
     },
     handlePressMove(e, el) {
       e.preventDefault()
+      if (this.isSmall) {
+        el.translateX += e.deltaX / 3
+        el.translateY += e.deltaY / 3
+        return
+      }
+
+      if (el.scaleX < 1.2 && el.scaleX > 0.8) {
+        this.$emit('enableSwipe')
+        el.translateX += e.deltaX / 3
+        return 
+      }
+
       let criticalX = this.getCriticalX(el.scaleX)
       let criticalY = this.getCriticalY(el.scaleY)
 
       // 实现超过临界值移动速度减缓
-      let slowX = (el.translateX > criticalX) ||
-        (el.translateX < -criticalX)
-      let slowY = (el.translateY > criticalY) ||
-        (el.translateY < -criticalY)
+      let slowX = el.translateX > criticalX || el.translateX < -criticalX
+      let slowY = el.translateY > criticalY || el.translateY < -criticalY
 
       this.$emit('disableSwipe')
       if (slowX) {
         el.translateX += e.deltaX / 3
         this.$emit('enableSwipe')
-      }
-      else
-        el.translateX += e.deltaX
+      } else el.translateX += e.deltaX
       if (slowY) {
         el.translateY += e.deltaY / 3
-      }
-      else
-        el.translateY += e.deltaY
+      } else el.translateY += e.deltaY
     },
     handleTouchEnd(e, el) {
       this.el = el
       if (this.isSmall || el.scaleX < 1) {
-        this.resetSize()
+        this.reset()
         return
       }
       if (el.scaleX > 4) {
@@ -134,13 +141,11 @@ export default {
       }
     },
     handleDoubleTap(e, el) {
-      console.log(el)
-      if (this.isSmall) {
-        return
-      }
+      if (this.isSmall) return
+
       this.$emit('disableSwipe')
       if (el.scaleX != 1) {
-        this.resetSize()
+        this.reset()
       } else {
         let box = el.getBoundingClientRect()
         let y = window.innerHeight / 2 - e.changedTouches[0].pageY
@@ -155,7 +160,7 @@ export default {
       this.$emit('disableSwipe')
       el.scaleX = el.scaleY = this.currentScale * e.zoom
     },
-    resetSize() {
+    reset() {
       if (!this.el) return
       new To(this.el, 'scaleX', 1, 500, this.ease)
       new To(this.el, 'scaleY', 1, 500, this.ease)
