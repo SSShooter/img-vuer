@@ -21,6 +21,7 @@
 </template>
 
 <script>
+// TODO 未决定加不加loading组件
 import VuerSingle from './VuerSingle'
 import To from './to.js'
 export default {
@@ -59,6 +60,7 @@ export default {
       }
     },
     currentIndex() {
+      // 图片未加载成功时无宽度 ，加载完成后先显示第一张后跳到当前
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
     },

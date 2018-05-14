@@ -1,3 +1,4 @@
+// alloy的补间函数
 ;(function() {
   var lastTime = 0
   var vendors = ['webkit', 'moz']

@@ -3,6 +3,7 @@ import vfinger from 'v-finger-mk42/indexIV'
 const gallery = {
   install(Vue, options) {
     Vue.use(vfinger)
+    // 所有图片地址储存位置
     let imgList = {}
     let VuerE = Vue.extend(Vuer)
     const element = document.createElement('div')
@@ -12,7 +13,7 @@ const gallery = {
     // 新建实例并挂载
     let vm = new VuerE().$mount('#gallery-box')
 
-    let handleClick = (el, group) => e => {
+    let openVuer = (el, group) => e => {
       if (group) {
         vm.imgList = imgList[group]
         let index =
@@ -34,7 +35,7 @@ const gallery = {
       inserted(el, binding) {
         // 同时兼容arg和value传分组名称
         let group = binding.arg || binding.value
-        el.addEventListener('click', handleClick(el, group))
+        el.addEventListener('click', openVuer(el, group))
         if (group) {
           let imgGroup = imgList[group]
           // 有分组
@@ -54,7 +55,7 @@ const gallery = {
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
         let group = binding.arg || binding.value
-        el.removeEventListener('click', handleClick(el, group))
+        el.removeEventListener('click', openVuer(el, group))
         if (group) {
           let imgGroup = imgList[group]
           let index = imgGroup.indexOf(el.src)
