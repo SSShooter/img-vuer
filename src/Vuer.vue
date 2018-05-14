@@ -13,7 +13,6 @@
         :key="src + index"
         ref="img"
         :src="src"
-        :index="index"
         :class="{z1:currentIndex===index}"
         @disableSwipe="allowSwipe = false"
         @enableSwipe="allowSwipe = true" />
@@ -29,11 +28,11 @@ export default {
   components: { VuerSingle },
   data() {
     return {
+      imgList: [],
       isSingle: false,
       isShow: false,
       allowSwipe: false,
       currentIndex: 0,
-      imgList: [],
       /* 从允许swipe开始纪录swipe位移
        * handleTouchEnd时位移小于100（意味着无法触发swipe），清零
        * 大于100必定触发handleSwipe，

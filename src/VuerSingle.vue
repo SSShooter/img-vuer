@@ -1,33 +1,40 @@
 <template>
-  <div class="img-vuer"
-    :class="'img' + index"
-    v-transform
-    v-finger:pinch="handlePinch"
-    v-finger:doubleTap="handleDoubleTap"
-    v-finger:multipointStart="handleMultipointStart"
-    v-finger:pressMove="handlePressMove"
-    v-finger:touchEnd="handleTouchEnd">
-    <img style="position:absolute;"
-      :src="src">
+  <div>
+    <div class="spinner"
+      v-if="loading">
+      <div class="double-bounce1"></div>
+      <div class="double-bounce2"></div>
+    </div>
+    <div class="img-vuer"
+      v-transform
+      v-finger:pinch="handlePinch"
+      v-finger:doubleTap="handleDoubleTap"
+      v-finger:multipointStart="handleMultipointStart"
+      v-finger:pressMove="handlePressMove"
+      v-finger:touchEnd="handleTouchEnd">
+      <img style="position:absolute;"
+        :src="src">
+    </div>
   </div>
 </template>
 
 <script>
 import To from './to.js'
 export default {
-  props: ['src', 'index'],
+  props: ['src'],
   data() {
     return {
+      loading: true,
       currentScale: 1,
-      overflowX: '',
-      overflowY: '',
       isSmall: false
     }
   },
   mounted() {
+    console.log(this.$el.lastChild.firstChild)
     if (!this.src) return false
+    this.$emit('disableSwipe')
     let vm = this
-    this.imageLoaded(`[src="${this.src}"]`, function(w, h) {
+    this.imgPositionAdjust(function(w, h) {
       // 检查屏幕比例
       if (w < window.innerWidth && h < window.innerHeight) {
         this.parentNode.style.display = 'block'
@@ -49,20 +56,21 @@ export default {
         this.style.left =
           (window.innerWidth - w / h * window.innerHeight) / 2 + 'px'
       }
+      vm.loading = false
     })
   },
   methods: {
-    imageLoaded(selector, onload) {
+    imgPositionAdjust(onload) {
       // 捏造<img/>获取图片宽高
       let img = new Image()
       // 缩略图同链接，注意获取错误
-      let dom = document.querySelector(`.img${this.index} > ` + selector)
+      let dom = this.$el.lastChild.firstChild
       img.onload = function() {
         onload.call(dom, this.width, this.height)
         img.onload = null
         img = null
       }
-      img.src = dom.getAttribute('src')
+      img.src = this.src
     },
     handleMultipointStart(e, el) {
       this.currentScale = el.scaleX
@@ -86,7 +94,7 @@ export default {
       if (el.scaleX < 1.2 && el.scaleX > 0.8) {
         this.$emit('enableSwipe')
         el.translateX += e.deltaX / 3
-        return 
+        return
       }
 
       let criticalX = this.getCriticalX(el.scaleX)
@@ -180,5 +188,54 @@ export default {
   width: 100%;
   height: 100%;
   display: none;
+}
+.spinner {
+  width: 40px;
+  height: 40px;
+
+  margin: calc(50vh - 20px) auto;
+  position: relative;
+}
+
+.double-bounce1,
+.double-bounce2 {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #ccc;
+  opacity: 0.6;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  -webkit-animation: sk-bounce 2s infinite ease-in-out;
+  animation: sk-bounce 2s infinite ease-in-out;
+}
+
+.double-bounce2 {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+}
+
+@-webkit-keyframes sk-bounce {
+  0%,
+  100% {
+    -webkit-transform: scale(0);
+  }
+  50% {
+    -webkit-transform: scale(1);
+  }
+}
+
+@keyframes sk-bounce {
+  0%,
+  100% {
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }
 </style>
