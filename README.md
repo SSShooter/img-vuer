@@ -32,6 +32,9 @@ Vue.use(gallery)
 
 // OR ( dynamic bind )
 <img v-gallery="'groupName'" :src="...">
+
+// use thumbnail
+<img v-gallery :src="thumbnailSrc" data-large="originSrc">
 ```
 ## Development
 ``` bash
