@@ -20,7 +20,9 @@ npm i img-vuer --save
 ```javascript
 // import img-vuer and install
 import gallery from 'img-vuer'
-Vue.use(gallery)
+Vue.use(gallery, { 
+  swipeThreshold: 150  // default 100 ,new in 0.12.0
+})
 
 // add direact to <img>
 <img v-gallery :src="...">

@@ -37,7 +37,8 @@ export default {
        * 大于100必定触发handleSwipe，
        * 修改currentIndex后清零
        */
-      swipeDelta: 0
+      swipeDelta: 0,
+      swipeThreshold: 100
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -85,13 +86,13 @@ export default {
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
-      if (Math.abs(this.swipeDelta) < 100) this.swipeDelta = 0
+      if (Math.abs(this.swipeDelta) < this.swipeThreshold) this.swipeDelta = 0
       let width = el.getBoundingClientRect().width
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
     },
     handleSwipe(evt, el) {
-      // swipeDelta小于100不触发翻页
-      if (Math.abs(this.swipeDelta) < 100) {
+      // swipeDelta小于swipeThreshold不触发翻页
+      if (Math.abs(this.swipeDelta) < this.swipeThreshold) {
         this.swipeDelta = 0
         return
       }

@@ -1,11 +1,11 @@
 import Vuer from './Vuer.vue'
-import vfinger from 'v-finger-mk42/indexIV'
+import vfinger from 'v-finger-mk42'
 
 // 有写大图属性就取大图
 const getImgSrc = el => el.dataset.large || el.src
 
 const gallery = {
-  install(Vue, options) {
+  install(Vue, options = {}) {
     Vue.use(vfinger)
     // 所有图片地址储存位置
     let imgList = {}
@@ -16,7 +16,7 @@ const gallery = {
 
     // 新建实例并挂载
     let vm = new VuerE({ el: '#gallery-box' })
-
+    vm.swipeThreshold = options.swipeThreshold || 100
     let openVuer = (el, group) => e => {
       let imgSrc = getImgSrc(el)
       if (group) {
