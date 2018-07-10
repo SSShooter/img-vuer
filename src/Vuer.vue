@@ -116,7 +116,7 @@ export default {
   position: fixed;
   top: 100vh;
   left: 0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   background: #000;
   overflow: hidden;
