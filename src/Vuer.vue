@@ -114,21 +114,37 @@ export default {
 <style scoped>
 .slider {
   position: fixed;
-  top: 100vh;
+  top: 100%;
+  width: 100%;
   left: 0;
   height: 100%;
-  width: 100vw;
   background: #000;
   overflow: hidden;
   z-index: 1000;
   opacity: 0;
-  visibility: hidden;
   -webkit-touch-callout: none;
   user-select: none;
 }
 
+.item-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  height: 100%;
+  /* 隐形坑，wrapper 宽度为100%，为什么拨走后还能响应事件？ */
+}
+
+.item {
+  height: 100%;
+  flex-basis: 100%;
+  flex-shrink: 0;
+}
+
+/* 左划后右划触发swipe无法解决，只能把当前图片置顶 */
+.z1 {
+  z-index: 1;
+}
+
 .open {
-  visibility: visible;
   animation: open 0.3s;
   animation-fill-mode: forwards;
 }
@@ -145,7 +161,6 @@ export default {
 }
 
 .close {
-  visibility: visible;
   animation: close 0.3s;
   animation-fill-mode: forwards;
 }
@@ -159,24 +174,5 @@ export default {
     opacity: 0;
     transform: translateY(0);
   }
-}
-
-.item-wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.item {
-  flex-shrink: 0;
-  width: 100%;
-  height: 100%;
-}
-
-/* 左划后右划触发swipe无法解决，只能把当前图片置顶 */
-.z1 {
-  z-index: 1;
 }
 </style>
