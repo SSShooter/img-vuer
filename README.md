@@ -35,7 +35,7 @@ Vue.use(gallery, {
 // OR ( dynamic bind )
 <img v-gallery="'groupName'" :src="...">
 
-// use thumbnail
+// use thumbnail ,new in 0.11.0
 <img v-gallery :src="thumbnailSrc" data-large="originSrc">
 ```
 ## Development

@@ -58,7 +58,6 @@ const gallery = {
         }
       },
       unbind(el, binding) {
-        console.log('unbind')
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
         let imgSrc = getImgSrc(el)
