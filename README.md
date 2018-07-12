@@ -50,11 +50,11 @@ npm run dev
 npm run build
 ```
 ## Troubleshooting
-abnormal with page scale      
+### Abnormal with page scale      
 Add meta      
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0, maximum-scale=1">
 ```
-should not use index as key for component that added `v-gallery`
+### Should not use index as key for the component that is added `v-gallery`.
 ## License
 MIT  

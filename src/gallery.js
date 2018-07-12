@@ -10,13 +10,13 @@ const gallery = {
     // 所有图片地址储存位置
     let imgList = {}
     let VuerE = Vue.extend(Vuer)
-    const element = document.createElement('div')
-    element.setAttribute('id', 'gallery-box')
-    document.querySelector('body').appendChild(element)
-
     // 新建实例并挂载
-    let vm = new VuerE({ el: '#gallery-box' })
+    let vm = new VuerE().$mount()
+    // 如果没有提供 $mount 的参数，模板将被渲染为文档之外的的元素，并且你必须使用原生 DOM API 把它插入文档中。
+    document.querySelector('body').appendChild(vm.$el)
+
     vm.swipeThreshold = options.swipeThreshold || 100
+    options.loadingStyle // TODO
     let openVuer = (el, group) => e => {
       let imgSrc = getImgSrc(el)
       if (group) {

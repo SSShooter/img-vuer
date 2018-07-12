@@ -11,3 +11,5 @@ new Vue({
   el: '#app',
   render: h => h(App)
 })
+
+// demo 实例创建
