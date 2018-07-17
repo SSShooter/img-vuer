@@ -55,6 +55,19 @@ export default {
   watch: {
     isShow(val) {
       if (val) {
+        // 使用 history 处理安卓物理返回键关闭图片
+        if (/android/i.test(navigator.userAgent)) {
+          history.pushState(null, null, location.href)
+          window.addEventListener(
+            'popstate',
+            e => {
+              this.closeGallery()
+            },
+            {
+              once: true
+            }
+          )
+        }
         document.querySelector('.slider').className = 'slider open'
       } else {
         document.querySelector('.slider').className = 'slider close'
