@@ -156,7 +156,7 @@ export default {
   }
   100% {
     opacity: 1;
-    transform: translateY(-100vh);
+    transform: translateY(-100%);
   }
 }
 
@@ -168,7 +168,7 @@ export default {
 @keyframes close {
   0% {
     opacity: 1;
-    transform: translateY(-100vh);
+    transform: translateY(-100%);
   }
   100% {
     opacity: 0;
