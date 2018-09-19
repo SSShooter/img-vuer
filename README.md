@@ -25,21 +25,26 @@ import gallery from 'img-vuer'
 Vue.use(gallery, { 
   swipeThreshold: 150  // default 100 ,new in 0.12.0
 })
-
-// add direact to <img>
+```
+```html
+<!-- add direact to <img> -->
 <img v-gallery :src="...">
 
-// group images
+<!-- group images -->
 <img v-gallery:groupName :src="...">
 <img v-gallery:groupName :src="...">
 <img v-gallery:groupName :src="...">
 
-// OR ( dynamic bind )
+<!-- OR ( dynamic bind ) -->
 <img v-gallery="'groupName'" :src="...">
 
-// use thumbnail ,new in 0.11.0
+<!-- use thumbnail, new in 0.11.0 -->
 <img v-gallery :src="thumbnailSrc" data-large="originSrc">
+
+<!-- trigger close gallery, new in 0.14.0 -->
+<button @click="$imgVuer.close()">close</button>
 ```
+
 ## Development
 ``` bash
 # install dependencies
@@ -57,6 +62,6 @@ Add meta
 ```html
 <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0, maximum-scale=1">
 ```
-### Should not use index as key for the component that is added `v-gallery`.
+### Should not use index as key for the component which is added `v-gallery`.
 ## License
 MIT  

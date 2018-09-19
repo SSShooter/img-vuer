@@ -32,7 +32,11 @@ const gallery = {
         vm.currentIndex = 0
       }
     }
-
+    Vue.prototype.$imgVuer = {
+      close () {
+        vm.closeGallery()
+      }
+    } 
     Vue.directive('gallery', {
       bind(el) {
         if (!el.src) throw '<img/> missing src'
