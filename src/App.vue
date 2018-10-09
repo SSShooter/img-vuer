@@ -88,7 +88,7 @@ export default {
       list1: [
         {
           src:
-            'http://ww1.sinaimg.cn/bmiddle/a66d0169ly1fvob8n06spj20sz6bnu10.jpg'
+            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mpd5uj21hc0tyws2.jpg'
         },
         {
           src:
