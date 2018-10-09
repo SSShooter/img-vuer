@@ -1,4 +1,4 @@
-// alloy的补间函数
+// alloy 的补间函数
 var To = function(el, property, value, time, ease, onEnd, onChange) {
   var current = el[property]
   var dv = value - current

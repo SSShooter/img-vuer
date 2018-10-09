@@ -9,6 +9,7 @@
       v-finger:pressMove="handlePressMove"
       v-finger:touchEnd="handleTouchEnd">
       <img style="position:absolute;"
+        v-transform
         :src="src">
     </div>
   </div>
@@ -22,7 +23,9 @@ export default {
   components: { Loader },
   data() {
     return {
+      imgEl: null,
       loading: true,
+      initialScale: 1,
       currentScale: 1,
       isSmall: false
     }
@@ -32,45 +35,34 @@ export default {
     this.$emit('disableSwipe')
     let vm = this
     this.imgPositionAdjust(function(w, h) {
-      // 检查屏幕比例
+      vm.imgEl = this
+      vm.imgHeight = h
+      vm.imgWidth = w
+      this.style.left = (window.innerWidth - w) / 2 + 'px'
+      this.style.top = (window.innerHeight - h) / 2 + 'px'
+      this.parentNode.style.display = 'block'
       if (w < window.innerWidth && h < window.innerHeight) {
-        this.parentNode.style.display = 'block'
-        this.style.top = (window.innerHeight - h) / 2 + 'px'
-        this.style.left = (window.innerWidth - w) / 2 + 'px'
         vm.isSmall = true
       } else if (window.innerWidth / window.innerHeight < w / h) {
-        this.parentNode.style.display = 'block'
-        this.style.width = '100%'
-        vm.imgHeight = h / w * window.innerWidth
-        vm.imgWidth = window.innerWidth
-        this.style.top =
-          (window.innerHeight - h / w * window.innerWidth) / 2 + 'px'
+        vm.initialScale = window.innerWidth / w
+        this.scaleX = this.scaleY = vm.initialScale
       } else {
-        this.parentNode.style.display = 'block'
-        this.style.height = '100%'
-        vm.imgHeight = window.innerHeight
-        vm.imgWidth = w / h * window.innerHeight
-        this.style.left =
-          (window.innerWidth - w / h * window.innerHeight) / 2 + 'px'
+        vm.initialScale = window.innerHeight / h
+        this.scaleX = this.scaleY = vm.initialScale
       }
       vm.loading = false
     })
   },
   methods: {
     imgPositionAdjust(onload) {
-      // 捏造<img/>获取图片宽高
       let img = new Image()
-      // 缩略图同链接，注意获取错误
-      let dom = this.$el.lastChild.firstChild
+      let imgEl = this.$el.lastChild.firstChild
       img.onload = function() {
-        onload.call(dom, this.width, this.height)
+        onload.call(imgEl, this.width, this.height)
         img.onload = null
         img = null
       }
       img.src = this.src
-    },
-    handleMultipointStart(e, el) {
-      this.currentScale = el.scaleX
     },
     getCriticalX(scale) {
       // 获取横向临界值
@@ -80,7 +72,12 @@ export default {
       // 获取纵向临界值
       return (this.imgHeight * scale - window.innerHeight) / 2
     },
-    handlePressMove(e, el) {
+    handleMultipointStart(e) {
+      this.currentScale = this.imgEl.scaleX
+    },
+    handlePressMove(e) {
+      let el = this.imgEl
+      console.log(e)
       e.preventDefault()
       if (this.isSmall) {
         el.translateX += e.deltaX / 3
@@ -88,7 +85,10 @@ export default {
         return
       }
 
-      if (el.scaleX < 1.2 && el.scaleX > 0.8) {
+      if (
+        el.scaleX / this.initialScale < 1.2 &&
+        el.scaleX / this.initialScale > 0.8
+      ) {
         this.$emit('enableSwipe')
         el.translateX += e.deltaX / 3
         return
@@ -110,18 +110,17 @@ export default {
         el.translateY += e.deltaY / 3
       } else el.translateY += e.deltaY
     },
-    handleTouchEnd(e, el) {
-      this.el = el
-      if (this.isSmall || el.scaleX < 1) {
+    handleTouchEnd(e) {
+      let el = this.imgEl
+      if (this.isSmall || el.scaleX / this.initialScale < 1) {
         this.reset()
         return
       }
-      if (el.scaleX > 4) {
-        // 放大倍数大于4 可能有潜在问题
-        new To(el, 'scaleX', 4, 500, this.ease)
-        new To(el, 'scaleY', 4, 500, this.ease)
+
+      if (el.scaleX / this.initialScale > 6) {
+        new To(el, 'scaleX', this.initialScale*6, 500, this.ease)
+        new To(el, 'scaleY', this.initialScale*6, 500, this.ease)
       }
-      // BUG 竖向长图zoom后touchEnd表现异常
       let criticalX = this.getCriticalX(el.scaleX)
       let criticalY = this.getCriticalY(el.scaleY)
 
@@ -145,32 +144,34 @@ export default {
         }
       }
     },
-    handleDoubleTap(e, el) {
+    handleDoubleTap(e) {
+      let el = this.imgEl
       if (this.isSmall) return
 
       this.$emit('disableSwipe')
-      if (el.scaleX != 1) {
+      if (this.imgEl.scaleX !== this.initialScale) {
         this.reset()
       } else {
         let box = el.getBoundingClientRect()
         let y = window.innerHeight / 2 - e.changedTouches[0].pageY
         let x = window.innerWidth / 2 - e.changedTouches[0].pageX
-        new To(el, 'scaleX', 2, 500, this.ease)
-        new To(el, 'scaleY', 2, 500, this.ease)
+        new To(el, 'scaleX', this.initialScale * 2, 500, this.ease)
+        new To(el, 'scaleY', this.initialScale * 2, 500, this.ease)
         new To(el, 'translateX', x, 500, this.ease)
         new To(el, 'translateY', y, 500, this.ease)
+        console.dir(el)
       }
     },
     handlePinch(e, el) {
       this.$emit('disableSwipe')
-      el.scaleX = el.scaleY = this.currentScale * e.zoom
+      this.imgEl.scaleX = this.imgEl.scaleY = this.currentScale * e.zoom
     },
     reset() {
-      if (!this.el) return
-      new To(this.el, 'scaleX', 1, 500, this.ease)
-      new To(this.el, 'scaleY', 1, 500, this.ease)
-      new To(this.el, 'translateX', 0, 500, this.ease)
-      new To(this.el, 'translateY', 0, 500, this.ease)
+      if (!this.imgEl) return
+      new To(this.imgEl, 'scaleX', this.initialScale, 500, this.ease)
+      new To(this.imgEl, 'scaleY', this.initialScale, 500, this.ease)
+      new To(this.imgEl, 'translateX', 0, 500, this.ease)
+      new To(this.imgEl, 'translateY', 0, 500, this.ease)
     },
     ease(x) {
       return Math.sqrt(1 - Math.pow(x - 1, 2))
@@ -186,4 +187,14 @@ export default {
   height: 100%;
   display: none;
 }
+/* hack issue 16
+   TranslateZ also works as it is a hack to add hardware acceleration to the animation 
+   reference https://stackoverflow.com/questions/14677490/blurry-text-after-using-css-transform-scale-in-chrome
+*/
+/* img {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+} */
 </style>
