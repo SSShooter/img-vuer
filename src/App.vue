@@ -49,6 +49,14 @@
           :src="img.src"
           :key="img.src + index">
       </div>
+      <div class="subtitle" style="margin-top: 0.6rem;">Small/Long</div>
+      <div style="overflow:hidden">
+        <img v-gallery
+          class="thumbnail"
+          v-for="(img,index) in list3_5"
+          :src="img.src"
+          :key="img.src + index">
+      </div>
       <p>
         <pre>&lt;img 
       <span class="vue-green">v-gallery</span>
@@ -122,9 +130,15 @@ export default {
           src:
             'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
         },
+      ],
+      list3_5: [
         {
           src:
             'https://tva1.sinaimg.cn/crop.316.53.496.496.180/686d7361jw1f3q2lpig4cj20vk0hswn3.jpg'
+        },
+        {
+          src:
+            'https://wx1.sinaimg.cn/mw690/686d7361gy1fw2v2bhv56j20m83nzkdp.jpg'
         }
       ],
       list4: [

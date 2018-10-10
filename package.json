@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules && cross-env NODE_ENV=vueplugin webpack --progress --hide-modules",
-    "plugin": "cross-env NODE_ENV=vueplugin webpack --progress --hide-modules"
+    "plugin": "cross-env NODE_ENV=vueplugin webpack --progress --hide-modules",
+    "demo": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
     "v-finger-mk42": "^1.0.11"
