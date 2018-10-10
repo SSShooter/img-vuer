@@ -44,7 +44,8 @@ const gallery = {
       // add update
       inserted(el, binding) {
         // 同时兼容arg和value传分组名称
-        let group = binding.arg || binding.value
+        // 加 String() 防止 0 捣乱
+        let group = String(binding.arg) || binding.value
         el.addEventListener('click', openVuer(el, group))
         let imgSrc = getImgSrc(el)
         if (group) {
@@ -65,7 +66,7 @@ const gallery = {
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
         let imgSrc = getImgSrc(el)
-        let group = binding.arg || binding.value
+        let group = String(binding.arg) || binding.value
         el.removeEventListener('click', openVuer(el, group))
         if (group) {
           let imgGroup = imgList[group]
