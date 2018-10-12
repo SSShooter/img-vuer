@@ -1,6 +1,6 @@
 <template>
   <div class="slider"
-    v-finger:singleTap="closeGallery">
+    v-finger:singleTap="handleTapClose">
     <div class="item-wrapper"
       v-transform
       v-finger:pressMove="handlePressMove"
@@ -58,18 +58,11 @@ export default {
         // 使用 history 处理安卓物理返回键关闭图片
         if (/android/i.test(navigator.userAgent)) {
           history.pushState(null, null, location.href)
-          window.addEventListener(
-            'popstate',
-            e => {
-              this.closeGallery()
-            },
-            {
-              once: true
-            }
-          )
+          window.addEventListener('popstate', this.closeGallery)
         }
         document.querySelector('.slider').className = 'slider open'
       } else {
+        window.removeEventListener('popstate', this.closeGallery)
         document.querySelector('.slider').className = 'slider close'
       }
     },
@@ -84,6 +77,12 @@ export default {
     }
   },
   methods: {
+    handleTapClose() {
+      if (/android/i.test(navigator.userAgent)) {
+        history.back()
+      }
+      this.closeGallery()
+    },
     closeGallery() {
       this.isShow = false
       this.$refs.img[this.currentIndex].reset()
