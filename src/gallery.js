@@ -19,7 +19,7 @@ const gallery = {
     options.loadingStyle // TODO
     let openVuer = (el, group) => e => {
       let imgSrc = getImgSrc(el)
-      if (group) {
+      if (group || group === 0) {
         vm.isSingle = false
         vm.imgList = imgList[group]
         vm.isShow = true
@@ -45,7 +45,7 @@ const gallery = {
       inserted(el, binding) {
         // 同时兼容arg和value传分组名称
         // 加 String() 防止 0 捣乱
-        let group = String(binding.arg) || binding.value
+        let group = binding.arg || binding.value
         el.addEventListener('click', openVuer(el, group))
         let imgSrc = getImgSrc(el)
         if (group) {
@@ -66,9 +66,9 @@ const gallery = {
         // 调查keep alive后跳转是否触发unbind
         vm.isShow = false
         let imgSrc = getImgSrc(el)
-        let group = String(binding.arg) || binding.value
+        let group = binding.arg || binding.value
         el.removeEventListener('click', openVuer(el, group))
-        if (group) {
+        if (group || group === 0) {
           let imgGroup = imgList[group]
           let index = imgGroup.indexOf(imgSrc)
           imgGroup.splice(index, 1)
