@@ -1,6 +1,6 @@
 <template>
   <div class="slider"
-    @click="handleTapClose">
+    v-finger:singleTap="handleTapClose">
     <div class="item-wrapper"
       v-transform
       v-finger:pressMove="handlePressMove"
