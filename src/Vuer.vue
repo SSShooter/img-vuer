@@ -1,21 +1,27 @@
 <template>
-  <div class="slider"
-    v-finger:singleTap="handleTapClose">
-    <div class="item-wrapper"
-      v-transform
-      v-finger:pressMove="handlePressMove"
-      v-finger:touchStart="handleTouchStart"
-      v-finger:touchEnd="handleTouchEnd"
-      v-finger:swipe="handleSwipe">
-      <!-- 不能以index为:key，index不变组件不更新 -->
-      <VuerSingle class="item"
-        v-for="(src,index) in imgList"
-        :key="src + index"
-        ref="img"
-        :src="src"
-        :class="{z1:currentIndex===index}"
-        @disableSwipe="allowSwipe = false"
-        @enableSwipe="allowSwipe = true" />
+  <div>
+    <div class="prevent-pass-through"></div>
+    <div class="slider" v-finger:singleTap="handleTapClose">
+      <div
+        class="item-wrapper"
+        v-transform
+        v-finger:pressMove="handlePressMove"
+        v-finger:touchStart="handleTouchStart"
+        v-finger:touchEnd="handleTouchEnd"
+        v-finger:swipe="handleSwipe"
+      >
+        <!-- 不能以index为:key，index不变组件不更新 -->
+        <VuerSingle
+          class="item"
+          v-for="(src,index) in imgList"
+          :key="src + index"
+          ref="img"
+          :src="src"
+          :class="{z1:currentIndex===index}"
+          @disableSwipe="allowSwipe = false"
+          @enableSwipe="allowSwipe = true"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -38,7 +44,7 @@ export default {
        * 修改currentIndex后清零
        */
       swipeDelta: 0,
-      swipeThreshold: 100
+      swipeThreshold: 100,
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -50,7 +56,7 @@ export default {
   computed: {
     maxIndex() {
       return this.imgList.length - 1
-    }
+    },
   },
   watch: {
     isShow(val) {
@@ -60,9 +66,17 @@ export default {
           history.pushState(null, null, location.href)
           window.addEventListener('popstate', this.closeGallery)
         }
+        document.querySelector('.prevent-pass-through').className =
+          'prevent-pass-through prevent-pass-through-show'
         document.querySelector('.slider').className = 'slider open'
       } else {
         window.removeEventListener('popstate', this.closeGallery)
+        setTimeout(
+          () =>
+            (document.querySelector('.prevent-pass-through').className =
+              'prevent-pass-through'),
+          400,
+        )
         document.querySelector('.slider').className = 'slider close'
       }
     },
@@ -74,7 +88,7 @@ export default {
     imgList() {
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
-    }
+    },
   },
   methods: {
     handleTapClose() {
@@ -118,12 +132,22 @@ export default {
       }
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
       this.swipeDelta = 0
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
+.prevent-pass-through {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 9;
+  display: none;
+}
+.prevent-pass-through-show {
+  display: block;
+}
 .slider {
   position: fixed;
   top: 100%;
