@@ -25,17 +25,18 @@
     "not ie <= 8"
   ],
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.0.5",
-    "css-loader": "^0.28.7",
-    "file-loader": "^1.1.4",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1",
-    "vue-scroller": "^2.2.4"
+    "cross-env": "^5.2.0",
+    "css-loader": "^2.0.0",
+    "file-loader": "^2.0.0",
+    "vue-loader": "^15.4.2",
+    "vue-scroller": "^2.2.4",
+    "vue-template-compiler": "^2.5.20",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   }
 }
