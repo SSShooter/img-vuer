@@ -56,6 +56,8 @@ Vue.use(gallery, {
 
 ## Development
 ``` bash
+# development environment node v6.15.1
+
 # install dependencies
 npm install
 
