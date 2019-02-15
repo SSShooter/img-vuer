@@ -82,6 +82,7 @@ export default {
       if (this.isSmall) {
         el.translateX += e.deltaX / 3
         el.translateY += e.deltaY / 3
+        this.$emit('enableSwipe')
         return
       }
 
