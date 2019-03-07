@@ -53,7 +53,16 @@ Vue.use(gallery, {
 <!-- trigger close gallery, new in 0.14.0 -->
 <button @click="$imgVuer.close()">close</button>
 ```
-
+## API
+|api         | arg           | description  | version|
+| ------------- | ----- | ----- | ---- |
+| close()      | / | close the viwer | 0.14.0 |
+| onIndexChange() | cb  |  `$imgVuer.onIndexChange((newVal, oldVal)=>{...})` | 0.16.0|
+| onToggle()     | cb  | on close or on open `$imgVuer.onToggle((newVal, oldVal)=>{...})` | 0.16.0|
+| changeBGColor()  | color  | change the background color of viwer `$imgVuer.changeBGColor('#fff')` | 0.16.1|
+| next()  | /  | switch to next image `$imgVuer.next()` | 0.16.2|
+| prev()  | /  | switch to previous image `$imgVuer.prev()` | 0.16.2|
+| getCurrentIndex()  | /  | / | 0.16.2|
 ## Development
 ``` bash
 # development environment node v6.15.1
