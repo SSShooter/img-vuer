@@ -1,7 +1,7 @@
 {
   "name": "img-vuer",
   "description": "img viewer",
-  "version": "0.16.2",
+  "version": "0.17.0",
   "author": "zhoudejie <ssshooterx@gmail.com>",
   "keywords": [
     "vue",
@@ -17,7 +17,7 @@
     "demo": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "dependencies": {
-    "v-finger-mk42": "^1.0.11"
+    "v-finger-mk42": "^2.0.3"
   },
   "browserslist": [
     "> 1%",
