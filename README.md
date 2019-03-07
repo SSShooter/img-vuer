@@ -8,14 +8,15 @@
 
 :mag: Zoom gesture   
 
-
 V0.11.0 Now you can use thumbnail~   
 
 V0.13.0 Gallery hide when the physical back button is pressed (android device only)
 
 V0.15.0 Fix blurry after using scale()
 
-**Please Use Mobile Browser** :satisfied:      
+:computer: v0.17.0 compatible with PC
+
+**v0.17.0 Now you can use both Mobile and PC Browser** :satisfied:      
 
 **[live demo](https://ssshooter.github.io/img-vuer/index.html)**      
 
@@ -54,15 +55,15 @@ Vue.use(gallery, {
 <button @click="$imgVuer.close()">close</button>
 ```
 ## API
-|api         | arg           | description  | version|
-| ------------- | ----- | ----- | ---- |
-| close()      | / | close the viwer | 0.14.0 |
-| onIndexChange() | cb  |  `$imgVuer.onIndexChange((newVal, oldVal)=>{...})` | 0.16.0|
-| onToggle()     | cb  | on close or on open `$imgVuer.onToggle((newVal, oldVal)=>{...})` | 0.16.0|
-| changeBGColor()  | color  | change the background color of viwer `$imgVuer.changeBGColor('#fff')` | 0.16.1|
-| next()  | /  | switch to next image `$imgVuer.next()` | 0.16.2|
-| prev()  | /  | switch to previous image `$imgVuer.prev()` | 0.16.2|
-| getCurrentIndex()  | /  | / | 0.16.2|
+|api         | arg           | description  | 
+| ------------- | ----- | ----- | 
+| close()      | / | close the viwer | 
+| onIndexChange() | cb  |  `$imgVuer.onIndexChange((newVal, oldVal)=>{...})` |
+| onToggle()     | cb  | on close or on open `$imgVuer.onToggle((newVal, oldVal)=>{...})` |
+| changeBGColor()  | color  | change the background color of viwer `$imgVuer.changeBGColor('#fff')` | 
+| next()  | /  | switch to next image `$imgVuer.next()` | 
+| prev()  | /  | switch to previous image `$imgVuer.prev()` | 
+| getCurrentIndex()  | /  | / | 
 ## Development
 ``` bash
 # development environment node v6.15.1
