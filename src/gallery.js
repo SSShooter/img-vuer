@@ -33,13 +33,37 @@ const gallery = {
       }
     }
     Vue.prototype.$imgVuer = {
-      close () {
-        vm.closeGallery()
-      }
-    } 
+      close() {
+        vm.closeGallery.call(vm)
+      },
+      onIndexChange(cb) {
+        // 0.16.0
+        vm.$watch('currentIndex', cb)
+      },
+      onToggle(cb) {
+        // 0.16.0
+        vm.$watch('isShow', cb)
+      },
+      changeBGColor(color) {
+        // 0.16.1
+        vm.backgroundColor = color
+      },
+      next() {
+        // 0.16.2
+        vm.next.call(vm)
+      },
+      prev() {
+        // 0.16.2
+        vm.prev.call(vm)
+      },
+      getCurrentIndex() {
+        // 0.16.2
+        return vm.currentIndex
+      },
+    }
     Vue.directive('gallery', {
       bind(el) {
-        if (!el.src) throw '<img/> missing src'
+        if (!el.src) throw '<img /> missing src'
       },
       // add update
       inserted(el, binding) {
@@ -73,8 +97,8 @@ const gallery = {
           let index = imgGroup.indexOf(imgSrc)
           imgGroup.splice(index, 1)
         }
-      }
+      },
     })
-  }
+  },
 }
 export default gallery

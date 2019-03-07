@@ -77,7 +77,6 @@ export default {
     },
     handlePressMove(e) {
       let el = this.imgEl
-      console.log(e)
       e.preventDefault()
       if (this.isSmall) {
         el.translateX += e.deltaX / 3

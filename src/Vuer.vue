@@ -1,7 +1,11 @@
 <template>
   <div>
     <div class="prevent-pass-through"></div>
-    <div class="slider" v-finger:singleTap="handleTapClose">
+    <div
+      class="slider"
+      :style="{'background-color':backgroundColor}"
+      v-finger:singleTap="handleTapClose"
+    >
       <div
         class="item-wrapper"
         v-transform
@@ -33,6 +37,7 @@ export default {
   components: { VuerSingle },
   data() {
     return {
+      backgroundColor: '#111',
       imgList: [],
       isSingle: false,
       isShow: false,
@@ -75,7 +80,7 @@ export default {
           () =>
             (document.querySelector('.prevent-pass-through').className =
               'prevent-pass-through'),
-          400,
+          400
         )
         document.querySelector('.slider').className = 'slider close'
       }
@@ -133,6 +138,18 @@ export default {
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
       this.swipeDelta = 0
     },
+    next() {
+      let el = document.querySelector('.item-wrapper')
+      let width = el.getBoundingClientRect().width
+      this.currentIndex += 1
+      new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+    },
+    prev() {
+      let el = document.querySelector('.item-wrapper')
+      let width = el.getBoundingClientRect().width
+      this.currentIndex -= 1
+      new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+    },
   },
 }
 </script>
@@ -154,7 +171,6 @@ export default {
   width: 100%;
   left: 0;
   height: 100%;
-  background: #000;
   overflow: hidden;
   z-index: 1000;
   opacity: 0;
