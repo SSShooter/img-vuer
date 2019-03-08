@@ -93,13 +93,6 @@ export default {
   components: { Vuer },
   mounted(){
     console.log(this.$imgVuer)
-    this.$imgVuer.onIndexChange((newVal, oldVal)=>{
-      console.log(newVal, oldVal)
-    })
-    this.$imgVuer.onToggle((newVal, oldVal)=>{
-      console.log(newVal, oldVal)
-    })
-    this.$imgVuer.changeBGColor('#000')
   },
   data() {
     return {

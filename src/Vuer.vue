@@ -117,14 +117,16 @@ export default {
     },
     handleTouchEnd(e, el) {
       // touchmove太短无法触发swipe时用于复位
-      if (Math.abs(this.swipeDelta) < this.swipeThreshold) this.swipeDelta = 0
-      let width = el.getBoundingClientRect().width
-      new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+      if (Math.abs(this.swipeDelta) < this.swipeThreshold) {
+        this.swipeDelta = 0
+        let width = el.getBoundingClientRect().width
+        new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
+      }
     },
     handleSwipe(evt, el) {
       // swipeDelta小于swipeThreshold不触发翻页
       if (Math.abs(this.swipeDelta) < this.swipeThreshold) {
-        this.swipeDelta = 0
+        // 借 handleTouchEnd 复位
         return
       }
       let width = el.getBoundingClientRect().width

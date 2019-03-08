@@ -14,9 +14,9 @@ V0.13.0 Gallery hide when the physical back button is pressed (android device on
 
 V0.15.0 Fix blurry after using scale()
 
-:computer: v0.17.0 compatible with PC
+:computer: v0.17.1 compatible with PC
 
-**v0.17.0 Now you can use both Mobile and PC Browser** :satisfied:      
+**Now you can use both Mobile and PC Browser** :satisfied:      
 
 **[live demo](https://ssshooter.github.io/img-vuer/index.html)**      
 
