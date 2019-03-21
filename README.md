@@ -2,6 +2,10 @@
 
 > An Mobile-First image viewer for Vue2
 
+[中文 README](https://github.com/ssshooter/img-vuer/blob/master/README.cn.md)
+
+---------------------
+
 :ok_woman: Easy to use
 
 :point_right: Swipe gesture
