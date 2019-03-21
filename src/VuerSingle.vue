@@ -1,16 +1,16 @@
 <template>
   <div>
-    <loader v-if="loading" />
-    <div class="img-vuer"
+    <loader v-if="loading"/>
+    <div
+      class="img-vuer"
       v-transform
       v-finger:pinch="handlePinch"
       v-finger:doubleTap="handleDoubleTap"
       v-finger:multipointStart="handleMultipointStart"
       v-finger:pressMove="handlePressMove"
-      v-finger:touchEnd="handleTouchEnd">
-      <img style="position:absolute;"
-        v-transform
-        :src="src">
+      v-finger:touchEnd="handleTouchEnd"
+    >
+      <img style="position:absolute;" v-transform :src="srcDelay">
     </div>
   </div>
 </template>
@@ -19,7 +19,7 @@
 import To from './to.js'
 import Loader from './loader/DoubleBounce'
 export default {
-  props: ['src'],
+  props: ['src', 'isCurrent'],
   components: { Loader },
   data() {
     return {
@@ -27,40 +27,45 @@ export default {
       loading: true,
       initialScale: 1,
       currentScale: 1,
-      isSmall: false
+      isSmall: false,
+      srcDelay: '',
+      isInited: false
     }
   },
   mounted() {
     if (!this.src) return false
     this.$emit('disableSwipe')
-    let vm = this
-    this.imgPositionAdjust(function(w, h) {
-      vm.imgEl = this
-      vm.imgHeight = h
-      vm.imgWidth = w
-      this.style.left = (window.innerWidth - w) / 2 + 'px'
-      this.style.top = (window.innerHeight - h) / 2 + 'px'
-      this.parentNode.style.display = 'block'
-      if (w < window.innerWidth && h < window.innerHeight) {
-        vm.isSmall = true
-      } else if (window.innerWidth / window.innerHeight < w / h) {
-        vm.initialScale = window.innerWidth / w
-        this.scaleX = this.scaleY = vm.initialScale
-      } else {
-        vm.initialScale = window.innerHeight / h
-        this.scaleX = this.scaleY = vm.initialScale
-      }
-      vm.loading = false
-    })
   },
   methods: {
-    imgPositionAdjust(onload) {
+    imgInit(onload) {
+      if(this.isInited && this.srcDelay === this.src) return
       let img = new Image()
       let imgEl = this.$el.lastChild.firstChild
+      let vm = this
       img.onload = function() {
-        onload.call(imgEl, this.width, this.height)
+        let h = this.height
+        let w = this.width
+        vm.imgEl = imgEl
+        vm.imgHeight = h
+        vm.imgWidth = w
+        imgEl.style.left = (window.innerWidth - w) / 2 + 'px'
+        imgEl.style.top = (window.innerHeight - h) / 2 + 'px'
+        imgEl.parentNode.style.display = 'block'
+        if (w < window.innerWidth && h < window.innerHeight) {
+          vm.isSmall = true
+        } else if (window.innerWidth / window.innerHeight < w / h) {
+          vm.initialScale = window.innerWidth / w
+          imgEl.scaleX = imgEl.scaleY = vm.initialScale
+        } else {
+          vm.initialScale = window.innerHeight / h
+          imgEl.scaleX = imgEl.scaleY = vm.initialScale
+        }
+        vm.loading = false
+
         img.onload = null
         img = null
+        vm.srcDelay = vm.src
+        vm.isInited = true
       }
       img.src = this.src
     },
@@ -118,8 +123,8 @@ export default {
       }
 
       if (el.scaleX / this.initialScale > 6) {
-        new To(el, 'scaleX', this.initialScale*6, 500, this.ease)
-        new To(el, 'scaleY', this.initialScale*6, 500, this.ease)
+        new To(el, 'scaleX', this.initialScale * 6, 500, this.ease)
+        new To(el, 'scaleY', this.initialScale * 6, 500, this.ease)
       }
       let criticalX = this.getCriticalX(el.scaleX)
       let criticalY = this.getCriticalY(el.scaleY)
@@ -152,7 +157,6 @@ export default {
       if (this.imgEl.scaleX !== this.initialScale) {
         this.reset()
       } else {
-        let box = el.getBoundingClientRect()
         let y = window.innerHeight / 2 - e.changedTouches[0].pageY
         let x = window.innerWidth / 2 - e.changedTouches[0].pageX
         new To(el, 'scaleX', this.initialScale * 2, 500, this.ease)
@@ -175,8 +179,8 @@ export default {
     },
     ease(x) {
       return Math.sqrt(1 - Math.pow(x - 1, 2))
-    }
-  }
+    },
+  },
 }
 </script>
 

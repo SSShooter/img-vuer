@@ -149,13 +149,13 @@ export default {
           thumbnail:
             'https://wx2.sinaimg.cn/mw690/686d7361gy1frawt0qgdxj2025025t8u.jpg',
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
+            'https://cdn.pixabay.com/photo/2018/11/04/11/49/dawn-3793717__480.jpg'
         },
         {
           thumbnail:
             'https://wx2.sinaimg.cn/mw690/686d7361gy1frawstm19qj2027027jrk.jpg',
           src:
-            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0na9ztj21hc0zkh5n.jpg'
+            'https://cdn.pixabay.com/photo/2017/01/30/10/03/book-2020460__480.jpg'
         }
       ]
     }

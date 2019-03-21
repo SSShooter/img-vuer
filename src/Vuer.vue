@@ -89,10 +89,16 @@ export default {
       // 图片未加载成功时无宽度 ，加载完成后先显示第一张后跳到当前
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
+      this.$nextTick(()=>{
+        this.$refs.img[this.currentIndex].imgInit()
+      })
     },
     imgList() {
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
+      this.$nextTick(()=>{
+        this.$refs.img[this.currentIndex].imgInit()
+      })
     },
   },
   methods: {
