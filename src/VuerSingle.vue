@@ -1,6 +1,8 @@
 <template>
   <div>
     <loader v-if="loading" />
+    <!--全屏预览时，显示当前页序号 新增total-->
+    <div  class="nowIndex">{{isCurrent}}/{{total}}</div>
     <div class="img-vuer"
       v-transform
       v-finger:pinch="handlePinch"
@@ -19,7 +21,7 @@
 import To from './to.js'
 import Loader from './loader/DoubleBounce'
 export default {
-  props: ['src'],
+  props: ['src', 'isCurrent','total'],
   components: { Loader },
   data() {
     return {
@@ -186,6 +188,13 @@ export default {
   width: 100%;
   height: 100%;
   display: none;
+}
+.nowIndex{
+  font-size:12px;
+  color: #fff;
+  position: relative;
+  text-align: center;
+  line-height: 20px;
 }
 /* hack issue 16
    TranslateZ also works as it is a hack to add hardware acceleration to the animation 

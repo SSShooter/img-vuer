@@ -99,63 +99,63 @@ export default {
       list1: [
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mpd5uj21hc0tyws2.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/1.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0ncnnej21hc0zetxo.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/2.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mqvu5j21hc0zkgzz.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/3.jpg'
         }
       ],
       list2: [
         {
           src:
-            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0na9ztj21hc0zkh5n.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/4.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mkce2j21hc0zkalj.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/5.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0mkce2j21hc0zkalj.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/5.jpg'
         }
       ],
       list3: [
         {
           src:
-            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0me2u3j20zk1hcgw6.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/6.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/7.jpg'
         },
       ],
       list3_5: [
         {
           src:
-            'https://tva1.sinaimg.cn/crop.316.53.496.496.180/686d7361jw1f3q2lpig4cj20vk0hswn3.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/8.jpg'
         },
         {
           src:
-            'https://wx1.sinaimg.cn/mw690/686d7361gy1fw2v2bhv56j20m83nzkdp.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/9.jpg'
         }
       ],
       list4: [
         {
           thumbnail:
-            'https://wx2.sinaimg.cn/mw690/686d7361gy1frawt0qgdxj2025025t8u.jpg',
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/t1.jpg',
           src:
-            'https://wx1.sinaimg.cn/mw1024/686d7361ly1fpha0m3ufuj21hc0zkqbj.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/7.jpg'
         },
         {
           thumbnail:
-            'https://wx2.sinaimg.cn/mw690/686d7361gy1frawstm19qj2027027jrk.jpg',
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/t2.jpg',
           src:
-            'https://wx3.sinaimg.cn/mw1024/686d7361ly1fpha0na9ztj21hc0zkh5n.jpg'
+            'https://raw.githubusercontent.com/ssshooter/img-vuer/master/img/4.jpg'
         }
       ]
     }

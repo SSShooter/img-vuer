@@ -21,9 +21,11 @@
           :key="src + index"
           ref="img"
           :src="src"
+          :isCurrent="(index+1)"
           :class="{z1:currentIndex===index}"
           @disableSwipe="allowSwipe = false"
           @enableSwipe="allowSwipe = true"
+          :total="imgList.length"
         />
       </div>
     </div>
