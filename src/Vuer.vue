@@ -26,6 +26,11 @@
           @enableSwipe="allowSwipe = true"
         />
       </div>
+      <div
+        v-if="isIndexShow"
+        @click="handleTapClose"
+        class="words index"
+      >{{currentIndex + 1 + '/' + imgList.length}}</div>
     </div>
   </div>
 </template>
@@ -41,6 +46,7 @@ export default {
       imgList: [],
       isSingle: false,
       isShow: false,
+      isIndexShow: true,
       allowSwipe: false,
       currentIndex: 0,
       /* 从允许swipe开始纪录swipe位移
@@ -167,6 +173,18 @@ export default {
 .prevent-pass-through-show {
   display: block;
 }
+.words {
+  position: fixed;
+  text-align: center;
+  color: aliceblue;
+  text-shadow: -1px -1px 0 rgb(17, 17, 17), 1px -1px 0 rgb(17, 17, 17),
+    -1px 1px 0 rgb(17, 17, 17), 1px 1px 0 rgb(17, 17, 17);
+}
+.index {
+  bottom: 20px;
+  width: 100%;
+}
+
 .slider {
   position: fixed;
   top: 100%;
