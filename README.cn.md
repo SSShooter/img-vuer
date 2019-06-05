@@ -33,6 +33,8 @@ npm i img-vuer --save
 import gallery from 'img-vuer'
 Vue.use(gallery, {
   swipeThreshold: 150, // 滑动阈值，默认值 100
+  isIndexShow: true, // 是否显示图片序号
+  useCloseButton: false, // 只通过右上角关闭键退出浏览
 })
 ```
 

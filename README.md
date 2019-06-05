@@ -4,7 +4,7 @@
 
 [中文 README](https://github.com/ssshooter/img-vuer/blob/master/README.cn.md)
 
----------------------
+---
 
 :ok_woman: Easy to use
 
@@ -41,6 +41,8 @@ npm i img-vuer --save
 import gallery from 'img-vuer'
 Vue.use(gallery, {
   swipeThreshold: 150, // default 100 ,new in 0.12.0
+  isIndexShow: true, // show image index
+  useCloseButton: false, // trigger gallery close with only close button
 })
 ```
 
