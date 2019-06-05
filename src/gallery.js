@@ -16,8 +16,11 @@ const gallery = {
     document.querySelector('body').appendChild(vm.$el)
 
     vm.swipeThreshold = options.swipeThreshold || 100
-    vm.isIndexShow = options.options || true
-    
+    vm.isIndexShow =
+      options.isIndexShow === undefined ? true : options.isIndexShow
+    vm.useCloseButton =
+      options.useCloseButton === undefined ? false : options.useCloseButton
+
     options.loadingStyle // TODO
     let openVuer = (el, group) => e => {
       let imgSrc = getImgSrc(el)

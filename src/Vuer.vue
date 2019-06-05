@@ -26,11 +26,8 @@
           @enableSwipe="allowSwipe = true"
         />
       </div>
-      <div
-        v-if="isIndexShow"
-        @click="handleTapClose"
-        class="words index"
-      >{{currentIndex + 1 + '/' + imgList.length}}</div>
+      <div v-if="useCloseButton" @click="handleTapClose(null,null,true)" class="words close-btn">×</div>
+      <div v-if="isIndexShow" class="words index">{{currentIndex + 1 + '/' + imgList.length}}</div>
     </div>
   </div>
 </template>
@@ -47,6 +44,7 @@ export default {
       isSingle: false,
       isShow: false,
       isIndexShow: true,
+      useCloseButton: false,
       allowSwipe: false,
       currentIndex: 0,
       /* 从允许swipe开始纪录swipe位移
@@ -102,7 +100,9 @@ export default {
     },
   },
   methods: {
-    handleTapClose() {
+    handleTapClose(e, el, fromCloseButton) {
+      console.log(this.useCloseButton, fromCloseButton)
+      if (this.useCloseButton && !fromCloseButton) return
       if (/android/i.test(navigator.userAgent)) {
         history.back()
       }
@@ -183,6 +183,12 @@ export default {
 .index {
   bottom: 20px;
   width: 100%;
+}
+.close-btn {
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+  font-size: 1.2rem;
 }
 
 .slider {

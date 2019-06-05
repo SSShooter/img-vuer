@@ -3,13 +3,15 @@ import App from './App.vue'
 import gallery from './gallery'
 import VueScroller from 'vue-scroller'
 Vue.use(VueScroller)
-Vue.use(gallery, { 
-  swipeThreshold: 100 
+Vue.use(gallery, {
+  swipeThreshold: 100,
+  isIndexShow: true,
+  useCloseButton: false,
 })
 
 new Vue({
   el: '#app',
-  render: h => h(App)
+  render: h => h(App),
 })
 
 // demo 实例创建
