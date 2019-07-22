@@ -16,10 +16,14 @@ const gallery = {
     document.querySelector('body').appendChild(vm.$el)
 
     vm.swipeThreshold = options.swipeThreshold || 100
+
     vm.isIndexShow =
       options.isIndexShow === undefined ? true : options.isIndexShow
+
     vm.useCloseButton =
       options.useCloseButton === undefined ? false : options.useCloseButton
+
+    vm.preload = options.preload === undefined ? false : options.preload
 
     options.loadingStyle // TODO
     let openVuer = (el, group) => e => {

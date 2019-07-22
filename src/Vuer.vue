@@ -45,19 +45,20 @@ export default {
       isShow: false,
       isIndexShow: true,
       useCloseButton: false,
+      preload: false,
       allowSwipe: false,
       currentIndex: 0,
-      /* 从允许swipe开始纪录swipe位移
+      /**
+       * 从允许swipe开始纪录swipe位移
        * handleTouchEnd时位移小于100（意味着无法触发swipe），清零
        * 大于100必定触发handleSwipe，
        * 修改currentIndex后清零
        */
       swipeDelta: 0,
-      swipeThreshold: 100,
+      swipeThreshold: 100
     }
   },
   beforeRouteLeave(to, from, next) {
-    console.log('beforeRouteLeave')
     // 路由跳转时关闭图片预览
     vm.isShow = false
     next()
@@ -65,7 +66,7 @@ export default {
   computed: {
     maxIndex() {
       return this.imgList.length - 1
-    },
+    }
   },
   watch: {
     isShow(val) {
@@ -93,11 +94,21 @@ export default {
       // 图片未加载成功时无宽度 ，加载完成后先显示第一张后跳到当前
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
+      if (!this.preload) {
+        this.$nextTick(() => {
+          this.$refs.img[this.currentIndex].imgInit()
+        })
+      }
     },
     imgList() {
       let el = document.querySelector('.item-wrapper')
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
-    },
+      if (!this.preload) {
+        this.$nextTick(() => {
+          this.$refs.img[this.currentIndex].imgInit()
+        })
+      }
+    }
   },
   methods: {
     handleTapClose(e, el, fromCloseButton) {
@@ -157,8 +168,8 @@ export default {
       let width = el.getBoundingClientRect().width
       this.currentIndex -= 1
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
-    },
-  },
+    }
+  }
 }
 </script>
 
