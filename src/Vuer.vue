@@ -45,7 +45,7 @@ export default {
       isShow: false,
       isIndexShow: true,
       useCloseButton: false,
-      preload: false,
+      preload: true,
       allowSwipe: false,
       currentIndex: 0,
       /**
@@ -112,7 +112,6 @@ export default {
   },
   methods: {
     handleTapClose(e, el, fromCloseButton) {
-      console.log(this.useCloseButton, fromCloseButton)
       if (this.useCloseButton && !fromCloseButton) return
       if (/android/i.test(navigator.userAgent)) {
         history.back()

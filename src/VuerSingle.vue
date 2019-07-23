@@ -29,13 +29,12 @@ export default {
       currentScale: 1,
       isSmall: false,
       srcDelay: '',
-      isInited: false
+      isInited: false,
     }
   },
   mounted() {
     if (!this.src) return false
     this.$emit('disableSwipe')
-    console.log(this.$root.preload, 'preload')
     if (this.$root.preload) {
       this.imgInit()
     }
@@ -43,6 +42,7 @@ export default {
   methods: {
     imgInit(onload) {
       if (this.isInited && this.srcDelay === this.src) return
+      console.log('preload', this.$root.preload)
       console.log('load img', this.src)
 
       let vm = this
@@ -187,8 +187,8 @@ export default {
     },
     ease(x) {
       return Math.sqrt(1 - Math.pow(x - 1, 2))
-    }
-  }
+    },
+  },
 }
 </script>
 

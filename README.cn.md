@@ -34,7 +34,8 @@ import gallery from 'img-vuer'
 Vue.use(gallery, {
   swipeThreshold: 150, // 滑动阈值，默认值 100
   isIndexShow: true, // 是否显示图片序号
-  useCloseButton: false, // 只通过右上角关闭键退出浏览
+  useCloseButton: true, // 只通过右上角关闭键退出浏览
+  preload: true, // 预加载同组图片
 })
 ```
 
@@ -101,7 +102,7 @@ npm run build
 
 如果你把大量大图分到一组，img-vuer 会在你预览这组的任意图片时加载该组所有图片。这会耗费用户大量流量和拖慢页面。
 
-你可以使用 v0.17.2 解决这个问题，这个版本只会加载你浏览过的图片。
+你可以使用 preload 选项解决这个问题，这个版本只会加载你浏览过的图片。
 
 ### key
 

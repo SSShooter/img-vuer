@@ -21,9 +21,9 @@ const gallery = {
       options.isIndexShow === undefined ? true : options.isIndexShow
 
     vm.useCloseButton =
-      options.useCloseButton === undefined ? false : options.useCloseButton
+      options.useCloseButton === undefined ? true : options.useCloseButton
 
-    vm.preload = options.preload === undefined ? false : options.preload
+    vm.preload = options.preload === undefined ? true : options.preload
 
     options.loadingStyle // TODO
     let openVuer = (el, group) => e => {

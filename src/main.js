@@ -6,7 +6,8 @@ Vue.use(VueScroller)
 Vue.use(gallery, {
   swipeThreshold: 100,
   isIndexShow: true,
-  useCloseButton: false,
+  useCloseButton: true,
+  preload: false,
 })
 
 new Vue({

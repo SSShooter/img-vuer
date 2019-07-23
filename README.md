@@ -40,9 +40,10 @@ npm i img-vuer --save
 // import img-vuer and install
 import gallery from 'img-vuer'
 Vue.use(gallery, {
-  swipeThreshold: 150, // default 100 ,new in 0.12.0
-  isIndexShow: true, // show image index
-  useCloseButton: false, // trigger gallery close with only close button
+  swipeThreshold: 150, // default 100
+  isIndexShow: true, // show image index, default true
+  useCloseButton: true, // trigger gallery close with close button, default true
+  preload: true, // preload images in the same group, default true
 })
 ```
 
@@ -109,7 +110,7 @@ Add meta
 
 If you group a large number of large images, img-vuer will load all image in the same group, so it will cause unnecessary mobile data traffic and slow the page down.
 
-You can use (only)v0.17.2 in this situation and img-vuer will only load the image you watched.
+You can use `preload` option in this situation and img-vuer will only load the image you watched.
 
 ### key
 
