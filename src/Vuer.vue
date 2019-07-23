@@ -184,7 +184,7 @@ export default {
   display: block;
 }
 .words {
-  position: fixed;
+  position: absolute;
   text-align: center;
   color: aliceblue;
   text-shadow: -1px -1px 0 rgb(17, 17, 17), 1px -1px 0 rgb(17, 17, 17),
