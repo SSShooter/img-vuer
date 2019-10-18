@@ -165,8 +165,8 @@ export default {
         this.reset()
       } else {
         let box = el.getBoundingClientRect()
-        let y = window.innerHeight / 2 - e.changedTouches[0].pageY
-        let x = window.innerWidth / 2 - e.changedTouches[0].pageX
+        let y = window.innerHeight / 2 - e.changedTouches[0].clientY
+        let x = window.innerWidth / 2 - e.changedTouches[0].clientX
         new To(el, 'scaleX', this.initialScale * 2, 500, this.ease)
         new To(el, 'scaleY', this.initialScale * 2, 500, this.ease)
         new To(el, 'translateX', x, 500, this.ease)
@@ -200,7 +200,7 @@ export default {
   display: none;
 }
 /* hack issue 16
-   TranslateZ also works as it is a hack to add hardware acceleration to the animation 
+   TranslateZ also works as it is a hack to add hardware acceleration to the animation
    reference https://stackoverflow.com/questions/14677490/blurry-text-after-using-css-transform-scale-in-chrome
 */
 /* img {
