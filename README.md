@@ -44,6 +44,8 @@ Vue.use(gallery, {
   isIndexShow: true, // show image index, default true
   useCloseButton: true, // trigger gallery close with close button, default true
   preload: true, // preload images in the same group, default true
+  sliderBackgroundColor: 'rgba(0,0,0,0.6)',
+  sliderZIndex: 1001,
 })
 ```
 

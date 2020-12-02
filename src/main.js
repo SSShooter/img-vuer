@@ -8,6 +8,8 @@ Vue.use(gallery, {
   isIndexShow: true,
   useCloseButton: true,
   preload: false,
+  sliderBackgroundColor: 'rgba(0,0,0,0.6)',
+  sliderZIndex: 1001,
 })
 
 new Vue({

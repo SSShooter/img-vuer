@@ -25,6 +25,10 @@ const gallery = {
 
     vm.preload = options.preload === undefined ? true : options.preload
 
+    vm.backgroundColor = options.sliderBackgroundColor || '#111'
+
+    vm.zIndex = options.sliderZIndex || 1000
+
     options.loadingStyle // TODO
     let openVuer = (el, group) => e => {
       let imgSrc = getImgSrc(el)

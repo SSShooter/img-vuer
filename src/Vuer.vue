@@ -3,7 +3,7 @@
     <div class="prevent-pass-through"></div>
     <div
       class="slider"
-      :style="{'background-color':backgroundColor}"
+      :style="{ 'background-color': backgroundColor, 'z-index': zIndex }"
       v-finger:singleTap="handleTapClose"
     >
       <div
@@ -17,17 +17,25 @@
         <!-- 不能以index为:key，index不变组件不更新 -->
         <VuerSingle
           class="item"
-          v-for="(src,index) in imgList"
+          v-for="(src, index) in imgList"
           :key="src + index"
           ref="img"
           :src="src"
-          :class="{z1:currentIndex===index}"
+          :class="{ z1: currentIndex === index }"
           @disableSwipe="allowSwipe = false"
           @enableSwipe="allowSwipe = true"
         />
       </div>
-      <div v-if="useCloseButton" @click="handleTapClose(null,null,true)" class="words close-btn">×</div>
-      <div v-if="isIndexShow" class="words index">{{currentIndex + 1 + '/' + imgList.length}}</div>
+      <div
+        v-if="useCloseButton"
+        @click="handleTapClose(null, null, true)"
+        class="words close-btn"
+      >
+        ×
+      </div>
+      <div v-if="isIndexShow" class="words index">
+        {{ currentIndex + 1 + '/' + imgList.length }}
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +48,7 @@ export default {
   data() {
     return {
       backgroundColor: '#111',
+      zIndex: 0,
       imgList: [],
       isSingle: false,
       isShow: false,
@@ -55,7 +64,7 @@ export default {
        * 修改currentIndex后清零
        */
       swipeDelta: 0,
-      swipeThreshold: 100
+      swipeThreshold: 100,
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -66,7 +75,7 @@ export default {
   computed: {
     maxIndex() {
       return this.imgList.length - 1
-    }
+    },
   },
   watch: {
     isShow(val) {
@@ -108,7 +117,7 @@ export default {
           this.$refs.img[this.currentIndex].imgInit()
         })
       }
-    }
+    },
   },
   methods: {
     handleTapClose(e, el, fromCloseButton) {
@@ -167,8 +176,8 @@ export default {
       let width = el.getBoundingClientRect().width
       this.currentIndex -= 1
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -208,7 +217,7 @@ export default {
   left: 0;
   height: 100%;
   overflow: hidden;
-  z-index: 1000;
+  /* z-index: 1000; */
   opacity: 0;
   -webkit-touch-callout: none;
   user-select: none;
