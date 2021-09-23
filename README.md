@@ -1,28 +1,24 @@
 # img-vuer
 
-> An Mobile-First image viewer for Vue2
+For Vue2: https://github.com/ssshooter/img-vuer/tree/legacy
+
+> An Mobile-First image viewer for Vue3
 
 [中文 README](https://github.com/ssshooter/img-vuer/blob/master/README.cn.md)
 
 ---
 
-:ok_woman: Easy to use
-
-:point_right: Swipe gesture
-
-:mag: Zoom gesture
-
-V0.11.0 Now you can use thumbnail~
-
-V0.13.0 Gallery hide when the physical back button is pressed (android device only)
-
-V0.15.0 Fix blurry after using scale()
-
-:computer: v0.17.1 compatible with PC
+- :ok_woman: Easy to use
+- :point_right: Swipe gesture
+- :mag: Zoom gesture
+- Now you can use thumbnail~
+- Gallery hide when the physical back button is pressed (android device only)
+- Fix blurry after using scale()
+- :computer: compatible with PC
 
 **Now you can use both Mobile and PC Browser** :satisfied:
 
-**[live demo](https://ssshooter.github.io/img-vuer/index.html)**
+**[live demo](https://img-vuer.vercel.app/)**
 
 or scan the QRcode
 
@@ -31,15 +27,17 @@ or scan the QRcode
 ## Install
 
 ```bash
-npm i img-vuer --save
+npm i img-vuer3 --save
 ```
 
 ## Usage
 
 ```javascript
 // import img-vuer and install
-import gallery from 'img-vuer'
-Vue.use(gallery, {
+import gallery from 'img-vuer3'
+import 'img-vuer3/dist/style.css'
+
+app.use(gallery, {
   swipeThreshold: 150, // default 100
   isIndexShow: true, // show image index, default true
   useCloseButton: true, // trigger gallery close with close button, default true
@@ -83,21 +81,16 @@ Vue.use(gallery, {
 ## Development
 
 ```bash
-# development environment node v6.15.1
-
-# install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
-npm run build
+npm run build-lib
 ```
 
 ## Troubleshooting
 
-### Abnormal with page scale
+### Abnormal page scale
 
 Add meta
 

@@ -1,6 +1,8 @@
 import { createApp, h } from 'vue'
 import App from './App.vue'
-import gallery from './gallery'
+import gallery from 'img-vuer3'
+import 'img-vuer3/dist/style.css'
+// import gallery from './gallery'
 
 const app = createApp({
   render: () => h(App),

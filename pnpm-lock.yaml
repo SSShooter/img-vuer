@@ -2,11 +2,13 @@ lockfileVersion: 5.3
 
 specifiers:
   '@vitejs/plugin-vue': ^1.9.0
+  img-vuer3: 1.0.2
   v-finger-mk42: 3.0.0
   vite: ^2.5.10
   vue: ^3.2.13
 
 dependencies:
+  img-vuer3: 1.0.2
   v-finger-mk42: 3.0.0
   vue: 3.2.14
 
@@ -145,6 +147,13 @@ packages:
     dependencies:
       function-bind: 1.1.1
     dev: true
+
+  /img-vuer3/1.0.2:
+    resolution: {integrity: sha512-HFZCdlR7n3zzKZb0NVIDR/97+OIURgoXllkmU3zHHv191neE/xE8ecmluI2QAu+voRMCUgL23ejWGt3DXkPcHg==}
+    dependencies:
+      v-finger-mk42: 3.0.0
+      vue: 3.2.14
+    dev: false
 
   /is-core-module/2.6.0:
     resolution: {integrity: sha512-wShG8vs60jKfPWpF2KZRaAtvt3a20OAn7+IJ6hLPECpSABLcKtFKTTI4ZtH5QcBruBHlq+WsdHWyz0BCZW7svQ==}

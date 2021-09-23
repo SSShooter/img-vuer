@@ -1,8 +1,13 @@
 {
   "name": "img-vuer3",
   "description": "img viewer",
-  "version": "0.19.3",
+  "version": "1.0.2",
   "author": "zhoudejie <ssshooterx@gmail.com>",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/img-vuer.umd.js",
+  "module": "./dist/img-vuer.es.js",
   "keywords": [
     "vue",
     "gallery",
@@ -13,9 +18,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build-lib": "vite build --mode lib",
     "serve": "vite preview"
   },
   "dependencies": {
+    "img-vuer3": "1.0.2",
     "v-finger-mk42": "3.0.0",
     "vue": "^3.2.13"
   },
