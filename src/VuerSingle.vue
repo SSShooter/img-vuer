@@ -17,7 +17,7 @@
 
 <script>
 import To from './to.js'
-import Loader from './loader/DoubleBounce'
+import Loader from './loader/DoubleBounce.vue'
 export default {
   props: ['src'],
   components: { Loader },
@@ -40,11 +40,11 @@ export default {
     }
   },
   methods: {
-    imgInit(onload) {
+    imgInit() {
       if (this.isInited && this.srcDelay === this.src) return
       console.log('preload', this.$root.preload)
       console.log('load img', this.src)
-
+      
       let vm = this
       vm.srcDelay = vm.src
       vm.isInited = true

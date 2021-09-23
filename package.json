@@ -1,5 +1,5 @@
 {
-  "name": "img-vuer",
+  "name": "img-vuer3",
   "description": "img viewer",
   "version": "0.19.3",
   "author": "zhoudejie <ssshooterx@gmail.com>",
@@ -11,31 +11,16 @@
   ],
   "license": "MIT",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules && cross-env NODE_ENV=vueplugin webpack --progress --hide-modules",
-    "plugin": "cross-env NODE_ENV=vueplugin webpack --progress --hide-modules",
-    "demo": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "dependencies": {
-    "v-finger-mk42": "^2.0.4"
+    "v-finger-mk42": "3.0.0",
+    "vue": "^3.2.13"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ],
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.0.5",
-    "css-loader": "^0.28.7",
-    "file-loader": "^1.1.4",
-    "vue-loader": "^13.0.5",
-    "vue-template-compiler": "^2.4.4",
-    "webpack": "^3.6.0",
-    "webpack-dev-server": "^2.9.1",
-    "vue-scroller": "^2.2.4"
+    "@vitejs/plugin-vue": "^1.9.0",
+    "vite": "^2.5.10"
   }
 }

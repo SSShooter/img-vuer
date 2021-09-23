@@ -19,7 +19,7 @@
           class="item"
           v-for="(src, index) in imgList"
           :key="src + index"
-          ref="img"
+          :ref="(el)=>setImgRef(el,index)"
           :src="src"
           :class="{ z1: currentIndex === index }"
           @disableSwipe="allowSwipe = false"
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import VuerSingle from './VuerSingle'
+import VuerSingle from './VuerSingle.vue'
 import To from './to.js'
 export default {
   components: { VuerSingle },
@@ -49,6 +49,7 @@ export default {
     return {
       backgroundColor: '#111',
       zIndex: 0,
+      img:[],
       imgList: [],
       isSingle: false,
       isShow: false,
@@ -66,6 +67,9 @@ export default {
       swipeDelta: 0,
       swipeThreshold: 100,
     }
+  },
+  beforeUpdate() {
+    this.img = []
   },
   beforeRouteLeave(to, from, next) {
     // 路由跳转时关闭图片预览
@@ -105,7 +109,7 @@ export default {
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
       if (!this.preload) {
         this.$nextTick(() => {
-          this.$refs.img[this.currentIndex].imgInit()
+          this.img[this.currentIndex].imgInit()
         })
       }
     },
@@ -114,12 +118,18 @@ export default {
       el.translateX = -this.currentIndex * el.getBoundingClientRect().width
       if (!this.preload) {
         this.$nextTick(() => {
-          this.$refs.img[this.currentIndex].imgInit()
+          this.img[this.currentIndex].imgInit()
         })
       }
     },
   },
   methods: {
+    setImgRef(el,index) {
+      // ref 赋值似乎会出现不按顺序的情况？所以只能传入 index 保证顺序
+      if (el) {
+        this.img[index] = el
+      }
+    },
     handleTapClose(e, el, fromCloseButton) {
       if (this.useCloseButton && !fromCloseButton) return
       if (/android/i.test(navigator.userAgent)) {
@@ -129,7 +139,7 @@ export default {
     },
     closeGallery() {
       this.isShow = false
-      this.$refs.img[this.currentIndex].reset()
+      this.img[this.currentIndex].reset()
     },
     handlePressMove(e, el) {
       e.preventDefault()
@@ -156,10 +166,10 @@ export default {
       }
       let width = el.getBoundingClientRect().width
       if (evt.direction === 'Left' && this.currentIndex < this.maxIndex) {
-        this.$refs.img[this.currentIndex].reset()
+        this.img[this.currentIndex].reset()
         this.currentIndex += 1
       } else if (evt.direction === 'Right' && this.currentIndex > 0) {
-        this.$refs.img[this.currentIndex].reset()
+        this.img[this.currentIndex].reset()
         this.currentIndex -= 1
       }
       new To(el, 'translateX', -this.currentIndex * width, 200, this.ease)

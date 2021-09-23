@@ -1,5 +1,0 @@
-{
-    "vetur.format.defaultFormatter.html": "prettyhtml",
-    "javascript.preferences.quoteStyle": "single",
-    "prettier.semi": false
-}
