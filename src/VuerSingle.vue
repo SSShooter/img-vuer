@@ -8,9 +8,8 @@
       v-finger:doubleTap="handleDoubleTap"
       v-finger:multipointStart="handleMultipointStart"
       v-finger:pressMove="handlePressMove"
-      v-finger:touchEnd="handleTouchEnd"
-    >
-      <img style="position:absolute;" v-transform :src="srcDelay" />
+      v-finger:touchEnd="handleTouchEnd">
+      <img style="position: absolute" v-transform :src="srcDelay" />
     </div>
   </div>
 </template>
@@ -44,14 +43,14 @@ export default {
       if (this.isInited && this.srcDelay === this.src) return
       console.log('preload', this.$root.preload)
       console.log('load img', this.src)
-      
+
       let vm = this
       vm.srcDelay = vm.src
       vm.isInited = true
 
       let img = new Image()
       let imgEl = this.$el.lastChild.firstChild
-      img.onload = function() {
+      img.onload = function () {
         let h = this.height
         let w = this.width
         vm.imgEl = imgEl
@@ -84,7 +83,7 @@ export default {
       // 获取纵向临界值
       return (this.imgHeight * scale - window.innerHeight) / 2
     },
-    handleMultipointStart(e) {
+    handleMultipointStart() {
       this.currentScale = this.imgEl.scaleX
     },
     handlePressMove(e) {
@@ -122,7 +121,7 @@ export default {
         el.translateY += e.deltaY / 3
       } else el.translateY += e.deltaY
     },
-    handleTouchEnd(e) {
+    handleTouchEnd() {
       let el = this.imgEl
       if (this.isSmall || el.scaleX / this.initialScale < 1) {
         this.reset()
@@ -164,17 +163,17 @@ export default {
       if (this.imgEl.scaleX !== this.initialScale) {
         this.reset()
       } else {
-        let box = el.getBoundingClientRect()
+        // let box = el.getBoundingClientRect()
         let y = window.innerHeight / 2 - e.changedTouches[0].clientY
         let x = window.innerWidth / 2 - e.changedTouches[0].clientX
         new To(el, 'scaleX', this.initialScale * 2, 500, this.ease)
         new To(el, 'scaleY', this.initialScale * 2, 500, this.ease)
         new To(el, 'translateX', x, 500, this.ease)
         new To(el, 'translateY', y, 500, this.ease)
-        console.dir(el)
+        // console.dir(el)
       }
     },
-    handlePinch(e, el) {
+    handlePinch(e) {
       this.$emit('disableSwipe')
       this.imgEl.scaleX = this.imgEl.scaleY = this.currentScale * e.zoom
     },

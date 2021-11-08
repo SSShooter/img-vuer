@@ -88,83 +88,67 @@
 </template>
 
 <script>
-import Vuer from './Vuer.vue'
 export default {
-  components: { Vuer },
-  mounted(){
-    console.log('this.$imgVuer',this.$imgVuer)
+  mounted() {
+    console.log('this.$imgVuer', this.$imgVuer)
   },
   data() {
     return {
       list1: [
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/1.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/1.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/2.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/2.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/3.jpg'
-        }
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/3.jpg',
+        },
       ],
       list2: [
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/4.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/4.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/5.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/5.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/5.jpg'
-        }
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/5.jpg',
+        },
       ],
       list3: [
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/6.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/6.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/7.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/7.jpg',
         },
       ],
       list3_5: [
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/8.jpg'
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/8.jpg',
         },
         {
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/9.jpg'
-        }
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/9.jpg',
+        },
       ],
       list4: [
         {
-          thumbnail:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/t1.jpg',
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/7.jpg'
+          thumbnail: 'https://cdn.jsdelivr.net/npm/img-vuer/img/t1.jpg',
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/7.jpg',
         },
         {
-          thumbnail:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/t2.jpg',
-          src:
-            'https://cdn.jsdelivr.net/npm/img-vuer/img/4.jpg'
-        }
-      ]
+          thumbnail: 'https://cdn.jsdelivr.net/npm/img-vuer/img/t2.jpg',
+          src: 'https://cdn.jsdelivr.net/npm/img-vuer/img/4.jpg',
+        },
+      ],
     }
   },
   methods: {
     toGitHub() {
       location.href = 'https://github.com/ssshooter/img-vuer'
-    }
-  }
+    },
+  },
 }
 </script>
 

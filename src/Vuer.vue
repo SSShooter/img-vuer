@@ -4,33 +4,29 @@
     <div
       class="slider"
       :style="{ 'background-color': backgroundColor, 'z-index': zIndex }"
-      v-finger:singleTap="handleTapClose"
-    >
+      v-finger:singleTap="handleTapClose">
       <div
         class="item-wrapper"
         v-transform
         v-finger:pressMove="handlePressMove"
         v-finger:touchStart="handleTouchStart"
         v-finger:touchEnd="handleTouchEnd"
-        v-finger:swipe="handleSwipe"
-      >
+        v-finger:swipe="handleSwipe">
         <!-- 不能以index为:key，index不变组件不更新 -->
         <VuerSingle
           class="item"
           v-for="(src, index) in imgList"
           :key="src + index"
-          :ref="(el)=>setImgRef(el,index)"
+          :ref="(el) => setImgRef(el, index)"
           :src="src"
           :class="{ z1: currentIndex === index }"
           @disableSwipe="allowSwipe = false"
-          @enableSwipe="allowSwipe = true"
-        />
+          @enableSwipe="allowSwipe = true" />
       </div>
       <div
         v-if="useCloseButton"
         @click="handleTapClose(null, null, true)"
-        class="words close-btn"
-      >
+        class="words close-btn">
         ×
       </div>
       <div v-if="isIndexShow" class="words index">
@@ -44,12 +40,13 @@
 import VuerSingle from './VuerSingle.vue'
 import To from './to.js'
 export default {
+  name: 'image-vuer',
   components: { VuerSingle },
   data() {
     return {
       backgroundColor: '#111',
       zIndex: 0,
-      img:[],
+      img: [],
       imgList: [],
       isSingle: false,
       isShow: false,
@@ -73,7 +70,7 @@ export default {
   },
   beforeRouteLeave(to, from, next) {
     // 路由跳转时关闭图片预览
-    vm.isShow = false
+    this.isShow = false
     next()
   },
   computed: {
@@ -124,7 +121,7 @@ export default {
     },
   },
   methods: {
-    setImgRef(el,index) {
+    setImgRef(el, index) {
       // ref 赋值似乎会出现不按顺序的情况？所以只能传入 index 保证顺序
       if (el) {
         this.img[index] = el
