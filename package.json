@@ -1,7 +1,11 @@
 {
   "name": "img-vuer3",
   "description": "img viewer",
-  "version": "1.0.2",
+  "version": "1.0.3",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SSShooter/img-vuer"
+  },
   "author": "zhoudejie <ssshooterx@gmail.com>",
   "files": [
     "dist"
